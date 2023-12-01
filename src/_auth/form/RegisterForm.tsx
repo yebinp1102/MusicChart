@@ -20,7 +20,7 @@ const formSchema = z.object({
   confirmPwd: z.string().min(8, { message: "Password must be at least 8 characters." }),
 })
 
-const RegisterForm = ( ) => {
+const RegisterForm = () => {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,7 +34,7 @@ const RegisterForm = ( ) => {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+
     const newUser = await createNewAccount({
       name: values.name,
       email: values.email,
