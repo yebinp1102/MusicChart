@@ -5,19 +5,19 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { createNewAccount } from "@/lib/appwrite/api"
  
 const formSchema = z.object({
-  name: z.string().min(2, {message: "name must be at least 2 characters.",}),
-  email: z.string().min(2, {message: "name must be at least 2 characters.",}),
-  password: z.string().min(2, {message: "name must be at least 2 characters.",}),
-  confirmPwd: z.string().min(2, {message: "name must be at least 2 characters.",}),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email(),
+  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+  confirmPwd: z.string().min(8, { message: "Password must be at least 8 characters." }),
 })
 
 const RegisterForm = ( ) => {
@@ -26,14 +26,21 @@ const RegisterForm = ( ) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      email: "",
+      password: "",
+      confirmPwd: ""
     },
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+    const newUser = await createNewAccount({
+      name: values.name,
+      email: values.email,
+      password: values.password
+    });
+    console.log(newUser);
   }
   return (
     <Form {...form}>
@@ -45,7 +52,7 @@ const RegisterForm = ( ) => {
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-5 flex flex-col">
 
-        {/* name */}
+        {/* name field */}
         <FormField
           control={form.control}
           name="name"
@@ -53,7 +60,7 @@ const RegisterForm = ( ) => {
             <FormItem>
               <FormLabel>name</FormLabel>
               <FormControl>
-                <Input placeholder="name" {...field} />
+                <Input className="shad-input" type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -61,7 +68,7 @@ const RegisterForm = ( ) => {
         />
 
 
-        {/* email */}
+        {/* email field */}
         <FormField
           control={form.control}
           name="email"
@@ -69,7 +76,7 @@ const RegisterForm = ( ) => {
             <FormItem>
               <FormLabel>email</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input className="shad-input" type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,7 +91,7 @@ const RegisterForm = ( ) => {
             <FormItem>
               <FormLabel>password</FormLabel>
               <FormControl>
-                <Input placeholder="password" {...field} />
+                <Input className="shad-input" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -99,7 +106,7 @@ const RegisterForm = ( ) => {
             <FormItem>
               <FormLabel>confirm password</FormLabel>
               <FormControl>
-                <Input placeholder="confirm password" {...field} />
+                <Input className="shad-input" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
