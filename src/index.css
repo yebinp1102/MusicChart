@@ -24,6 +24,10 @@
     border: 1px solid rgba( 255, 255, 255, 0.18 );
   }
 
+  .h1-bold{
+    @apply text-[38px] font-bold leading-[140%] tracking-tighter
+  }
+
   .h2-bold{
     @apply text-[30px] font-bold leading-[140%] tracking-tighter
   }
@@ -31,12 +35,20 @@
   .h3-bold{
     @apply text-[24px] font-bold leading-[140%] tracking-tighter
   }
+
+  .h4-bold{
+    @apply text-[20px] font-bold leading-[140%] tracking-tighter
+  }
+
+  .bg-linear-gradient{
+    @apply bg-gradient-to-r from-black to-transparent
+  }
 }
 
 @layer components {
   /* Button */
   .shad-button_primary {
-    @apply bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 !important;
+    @apply bg-primary-500 hover:bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
   }
   
   .shad-button_dark_4 {
@@ -48,6 +60,10 @@
   }
 
   .shad-input {
-    @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 ring-offset-2 !important;
+    @apply h-12 bg-dark-4 border-none rounded-2xl placeholder:text-light-4 focus-visible:ring-1 ring-offset-2 !important;
+  }
+
+  .shad-input_label{
+    @apply text-light-3 ml-2
   }
 }

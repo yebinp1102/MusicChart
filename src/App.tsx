@@ -1,11 +1,12 @@
 import AuthLayout from './_auth/AuthLayout';
 import RegisterForm from './_auth/form/RegisterForm';
+import { Toaster } from './components/ui/toaster';
 import './index.css';
 import { Routes, Route } from 'react-router-dom';
 
-type Props = {}
 
-const App = (props: Props) => {
+
+const App = () => {
   return (
     <main className='flex h-screen'>
       <Routes>
@@ -14,6 +15,8 @@ const App = (props: Props) => {
         </Route>
 
       </Routes>
+
+      <Toaster />
     </main>
   )
 }

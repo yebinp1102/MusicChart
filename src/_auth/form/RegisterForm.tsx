@@ -2,6 +2,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
+import { useToast } from "@/components/ui/use-toast"
 import {
   Form,
   FormControl,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { createNewAccount } from "@/lib/appwrite/api"
+import { Link } from "react-router-dom"
  
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -21,6 +23,8 @@ const formSchema = z.object({
 })
 
 const RegisterForm = () => {
+
+  const {toast} = useToast();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,81 +44,97 @@ const RegisterForm = () => {
       email: values.email,
       password: values.password
     });
-    console.log(newUser);
+    
+    if(!newUser){
+      toast({title: "회원가입에 실패 했습니다. 다시 시도해주세요.",})
+    }
+
   }
   return (
-    <Form {...form}>
+    <div className="mt-20 w-full px-20">
+      <Form {...form}>
 
-      <div>
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Create your account</h2>
-        <p className=" text-light-3 my-2">Music Chart를 사용하기 위해 계정을 생성하세요.</p>
-      </div>
+        <div className="mb-14">
+          <p className="text-light-3 h4-bold">시작하기</p>
+          <h2 className="h1-bold mb-5 mt-3">새로운 계정을 생성 해보세요.</h2>
+          <div className=" text-light-3 my-2 flex gap-1">
+            <p>이미 회원가입을 하셨나요?</p>
+            <Link to="/login" className="text-primary-500 font-bold">
+              로그인
+            </Link>
+          </div>
+        </div>
 
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-5 flex flex-col">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-6 flex flex-col max-w-2xl">
 
-        {/* name field */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>name</FormLabel>
-              <FormControl>
-                <Input className="shad-input" type="text" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* name field */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="shad-input_label">이름</FormLabel>
+                <FormControl>
+                  <Input className="shad-input" type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
 
-        {/* email field */}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>email</FormLabel>
-              <FormControl>
-                <Input className="shad-input" type="text" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* email field */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="shad-input_label">이메일</FormLabel>
+                <FormControl>
+                  <Input className="shad-input" type="text" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* password */}
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>password</FormLabel>
-              <FormControl>
-                <Input className="shad-input" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          {/* password */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="shad-input_label">비밀번호</FormLabel>
+                <FormControl>
+                  <Input className="shad-input" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        {/* confirm password */}
-        <FormField
-          control={form.control}
-          name="confirmPwd"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>confirm password</FormLabel>
-              <FormControl>
-                <Input className="shad-input" type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="shad-button_primary mt-6">Submit</Button>
-      </form>
-    </Form>
+          {/* confirm password */}
+          <FormField
+            control={form.control}
+            name="confirmPwd"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="shad-input_label">비밀번호 확인</FormLabel>
+                <FormControl>
+                  <Input className="shad-input" type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          
+          <div className="flex w-full justify-end">
+            <Button type="submit" className="shad-button_primary px-20 py-6 mt-4">회원가입</Button>
+          </div>
+
+        </form>
+      </Form>
+    </div>
   )
 }
 
