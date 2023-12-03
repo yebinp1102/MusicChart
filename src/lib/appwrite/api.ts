@@ -39,7 +39,7 @@ export const saveUserToDB = async (user: {
   try{
     const newUser = await databases.createDocument(
       appwriteConfig.databaseId,
-      appwriteConfig.songCollectionId,
+      appwriteConfig.userCollectionId,
       ID.unique(),
       user
     )

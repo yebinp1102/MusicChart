@@ -12,8 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { createNewAccount } from "@/lib/appwrite/api"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useCreateUserAccount } from "@/lib/react-query/queries"
  
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -23,9 +23,11 @@ const formSchema = z.object({
 })
 
 const RegisterForm = () => {
-
+  const navigate = useNavigate();
   const {toast} = useToast();
-  // 1. Define your form.
+  const {mutateAsync: createNewAccount, isPending: isCreatingAccount} = useCreateUserAccount();
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,8 +38,14 @@ const RegisterForm = () => {
     },
   })
  
-  // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    if(values.password !== values.confirmPwd){
+      toast({
+        title: "비밀번호가 일치하지 않습니다."
+      })
+      return;
+    }
 
     const newUser = await createNewAccount({
       name: values.name,
@@ -47,6 +55,9 @@ const RegisterForm = () => {
     
     if(!newUser){
       toast({title: "회원가입에 실패 했습니다. 다시 시도해주세요.",})
+    }else if(newUser && !isCreatingAccount){
+      toast({title: "회원가입이 완료 되었습니다. 로그인 해주세요."});
+      navigate("/login")
     }
 
   }

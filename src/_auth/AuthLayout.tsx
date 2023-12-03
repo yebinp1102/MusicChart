@@ -33,6 +33,7 @@ const AuthLayout = () => {
         <div className="absolute w-full h-full bg-black opacity-40"></div> 
         {/* 이미지 그라데이션 효과 */}
         <div className="absolute w-full h-full bg-linear-gradient"></div>
+        <div className="absolute w-full h-full bg-gradient-to-t from-black to-transparent"></div>
       </div>
 
     </>
