@@ -3,3 +3,11 @@ export type NewUserType = {
   email: string;
   password: string;
 }
+
+export type UserType = {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: string;
+  isAdmin: boolean;
+}

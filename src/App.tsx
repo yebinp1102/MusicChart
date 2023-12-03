@@ -1,4 +1,5 @@
 import AuthLayout from './_auth/AuthLayout';
+import LoginFrom from './_auth/form/LoginFrom';
 import RegisterForm from './_auth/form/RegisterForm';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path='/register' element={<RegisterForm />} />
+          <Route path='/login' element={<LoginFrom />} />
         </Route>
 
       </Routes>
