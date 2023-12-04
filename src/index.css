@@ -1,4 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  *{
+    @apply box-border list-none p-0 m-0 scroll-smooth
+  }
+
+  body{
+    @apply bg-dark-1 text-white min-h-screen font-noto
+  }
+}
+
+@layer utilities{
+  .glass{
+    background: rgba( 255, 255, 255, 0.15 );
+    border-radius: 10px;
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 20px );
+    -webkit-backdrop-filter: blur( 10px );
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+  }
+
+  .h1-bold{
+    @apply text-[38px] font-bold leading-[140%] tracking-tighter
+  }
+
+  .h2-bold{
+    @apply text-[30px] font-bold leading-[140%] tracking-tighter
+  }
+
+  .h3-bold{
+    @apply text-[24px] font-bold leading-[140%] tracking-tighter
+  }
+
+  .h4-bold{
+    @apply text-[20px] font-bold leading-[140%] tracking-tighter
+  }
+
+  .bg-linear-gradient{
+    @apply bg-gradient-to-r from-black to-transparent
+  }
+}
+
+@layer components {
+  /* Button */
+  .shad-button_primary {
+    @apply bg-primary-500 hover:bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
+  }
+  
+  .shad-button_dark_4 {
+    @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
+  }
+  
+  .shad-button_ghost {
+    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
+  }
+
+  .shad-input {
+    @apply h-12 bg-dark-4 border-none rounded-2xl placeholder:text-light-4 focus-visible:ring-1 ring-offset-2 !important;
+  }
+
+  .shad-input_label{
+    @apply text-light-3 ml-2
+  }
+}
