@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Link, useNavigate } from "react-router-dom"
 import { useCreateUserAccount } from "@/lib/react-query/queries"
+import Loader from "@/components/shared/Loader"
  
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -140,7 +141,15 @@ const RegisterForm = () => {
           />
           
           <div className="flex w-full justify-end">
-            <Button type="submit" className="shad-button_primary px-20 py-6 mt-4">회원가입</Button>
+            <Button type="submit" className="shad-button_primary px-20 py-6 mt-4">
+              {isCreatingAccount ? (
+                <>
+                  <Loader /> 처리중...
+                </>
+              ) : (
+                "회원가입"
+              )}
+            </Button>
           </div>
 
         </form>

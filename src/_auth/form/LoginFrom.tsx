@@ -1,3 +1,4 @@
+import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -22,7 +23,7 @@ const LoginFrom = () => {
   const {checkAuthUser, isLoading: isUserLoading} = useUserContext();
   
   // query
-  const {mutateAsync: signInAccount, isPending} = useLoginAccount();
+  const {mutateAsync: signInAccount, isPending : isLoginLoading} = useLoginAccount();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -101,7 +102,15 @@ const LoginFrom = () => {
           />
           
           <div className="flex w-full justify-end">
-            <Button type="submit" className="shad-button_primary px-20 py-6 mt-4">로그인</Button>
+            <Button type="submit" className="shad-button_primary px-20 py-6 mt-4">
+              {isUserLoading || isLoginLoading ? (
+                <>
+                  <Loader /> 처리중...
+                </>
+              ) : (
+                "로그인"
+              )}
+            </Button>
           </div>
 
         </form>
