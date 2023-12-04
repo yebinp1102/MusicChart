@@ -48,16 +48,13 @@
 @layer components {
   /* Button */
   .shad-button_primary {
-    @apply bg-primary-500 hover:bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
+    @apply bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
   }
   
   .shad-button_dark_4 {
     @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
   }
   
-  .shad-button_ghost {
-    @apply flex gap-4 items-center justify-start hover:bg-transparent hover:text-white !important;
-  }
 
   .shad-input {
     @apply h-12 bg-dark-4 border-none rounded-2xl placeholder:text-light-4 focus-visible:ring-1 ring-offset-2 !important;
