@@ -68,7 +68,7 @@ const RegisterForm = () => {
 
         <div className="mb-14">
           <p className="text-light-3 h4-bold">시작하기</p>
-          <h2 className="h1-bold mb-5 mt-3">새로운 계정을 생성 해보세요.</h2>
+          <h2 className="xl:h1-bold h2-bold mb-5 mt-3">새로운 계정을 생성 해보세요.</h2>
           <div className=" text-light-3 my-2 flex gap-1">
             <p>이미 회원가입을 하셨나요?</p>
             <Link to="/login" className="text-primary-500 font-bold">
@@ -77,7 +77,7 @@ const RegisterForm = () => {
           </div>
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-6 flex flex-col max-w-2xl">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-6 flex flex-col xl:w-[550px] w-[450px]">
 
           {/* name field */}
           <FormField

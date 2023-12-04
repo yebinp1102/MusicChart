@@ -55,12 +55,12 @@ const LoginFrom = () => {
   }
 
   return (
-    <div className="mt-20 w-full px-20">
+    <div className="mt-40 px-20">
       <Form {...form}>
 
         <div className="mb-14">
           <p className="text-light-3 h4-bold">시작하기</p>
-          <h2 className="h1-bold mb-5 mt-3">Music Chart를 시작 해보세요.</h2>
+          <h2 className="xl:h1-bold h2-bold mb-5 mt-3">Music Chart를 시작 해보세요.</h2>
           <div className=" text-light-3 my-2 flex gap-1">
             <p>회원가입이 필요한가요?</p>
             <Link to="/register" className="text-primary-500 font-bold">
@@ -69,7 +69,7 @@ const LoginFrom = () => {
           </div>
         </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-6 flex flex-col max-w-2xl">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 gap-10 flex flex-col xl:w-[600px] w-[450px]">
 
           {/* email field */}
           <FormField
