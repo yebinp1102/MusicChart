@@ -11,3 +11,10 @@ export type UserType = {
   imageUrl: string;
   isAdmin: boolean;
 }
+
+
+export type NavLinkType = {
+  imgUrl: string;
+  route: string;
+  label: string;
+}

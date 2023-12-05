@@ -43,6 +43,14 @@
   .bg-linear-gradient{
     @apply bg-gradient-to-r from-black to-transparent
   }
+
+  .invert-white{
+    @apply invert brightness-0 transition
+  }
+
+  .leftsidebar-link {
+    @apply rounded-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
+  }
 }
 
 @layer components {
