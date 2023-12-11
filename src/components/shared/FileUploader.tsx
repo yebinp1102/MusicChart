@@ -43,7 +43,7 @@ const FileUploader = ({fieldChange, mediaUrl} : Props) => {
             <p className="text-light-3 text-center w-fill p-4">사진을 바꾸려면 이미지를 클릭하거나 이미지를 드래그 해주세요.</p>
           </>
         ): (
-          <div className="flex flex-col items-center justify-center p-16 h-80 lg:h-[612px] border-dark-4 border-2">
+          <div className="flex flex-col items-center justify-center p-16 h-80 lg:h-[612px]">
             <img 
               src="/assets/icons/file-upload.svg" 
               alt="file upload" 

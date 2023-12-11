@@ -27,7 +27,7 @@ const LeftSideBar = () => {
     <nav className="hidden md:flex flex-col justify-between px-6 py-10 min-w-[270px] border-r">
       <div className="flex flex-col gap-5">
         {/* Logo */}
-        <Link to="/" className="flex gap-2 items-center mb-12 pl-2">
+        <Link to="/" className="flex gap-2 items-center mb-8 pl-2">
           <img 
             src="/assets/icons/logo.svg"
             alt="logo"
@@ -58,7 +58,7 @@ const LeftSideBar = () => {
           </ul>
 
           {/* Private links */}
-          <div className=" text-light-3 font-bold mt-16 mb-4">Private</div>
+          <div className=" text-light-3 font-bold mt-14 mb-4">Private</div>
           <ul className="flex flex-col gap-2">
             {sidebarPrivateLinks.map((link: NavLinkType) => {
               const isActive = pathname === link.route;
@@ -76,6 +76,21 @@ const LeftSideBar = () => {
               )
             })}
           </ul>
+
+          {/* only for Admin */}
+          {user.isAdmin && (
+            <div className="">
+              <div className=" text-light-3 font-bold mt-10 mb-2">Admin</div>
+              <NavLink to="/create-post" className="leftsidebar-link gap-4 group items-center p-3 flex">
+              <img 
+                src="/assets/icons/new-music.svg" 
+                alt="song-add"
+                className="w-7 h-7 group-hover:invert-white"
+              />
+                새로운 곡 추가
+              </NavLink>
+            </div>
+          )}
       </div>
 
 
