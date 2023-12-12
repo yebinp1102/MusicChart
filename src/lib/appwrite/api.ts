@@ -1,5 +1,5 @@
-import { NewUserType } from "@/types";
-import { account, appwriteConfig, avatars, databases } from "./config";
+import { NewSongType, NewUserType } from "@/types";
+import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
 export const createNewAccount = async (user: NewUserType) => {
@@ -85,6 +85,91 @@ export const getCurrentUser = async () => {
     return currentUser.documents[0]
 
   } catch (err) {
+    console.log(err);
+  }
+}
+
+export const createSong = async (song : NewSongType) => {
+  try{
+
+    // appwrite storage에 이미지 업로드
+    const uploadedFile = await uploadFile(song.file[0]);
+
+    if(!uploadedFile) throw Error;
+
+    // storage에 이미지를 저장하면서 생성한 고유 id값을 통해 저장된 이미지의 url을 참조
+    // 이 url은 DB에 이미지를 저장할 때 필요함
+    const fileUrl = getFilePreview(uploadedFile.$id);
+    if(!fileUrl){
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+    // DB에 곡 정보를 저장하기 전에 tags를 문자 -> 배열로 변경
+    const tags = song.tags?.replace(/ /g, "").split(",") || [];
+
+    // create song
+    const newSong = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      ID.unique(),
+      {
+        title: song.title,
+        singer: song.singer,
+        imageUrl: fileUrl,
+        imageId: uploadedFile.$id,
+        tags,
+      }
+    )
+
+    if(!newSong){
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+    return newSong;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const uploadFile = async (file : File) => {
+  try {
+    const uploadedFile = await storage.createFile(
+      appwriteConfig.storageId,
+      ID.unique(),
+      file
+    );
+    return uploadedFile
+  }catch(err){
+    console.log(err)
+  }
+}
+
+// image preview를 위해 file의 url을 반환하는 함수
+export const getFilePreview = (fileId: string) => {
+  try {
+    const fileUrl = storage.getFilePreview(
+      appwriteConfig.storageId,
+      fileId,
+      2000,
+      2000,
+      "top",
+      100
+    )
+
+    if(!fileUrl) throw Error;
+
+    return fileUrl;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const deleteFile = async (fileId : string) => {
+  try {
+    await storage.deleteFile(appwriteConfig.storageId, fileId);
+  }catch(err){
     console.log(err);
   }
 }

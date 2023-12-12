@@ -5,6 +5,11 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import FileUploader from "../shared/FileUploader";
+import { useCreateSong } from "@/lib/react-query/queries";
+import { useToast } from "../ui/use-toast";
+import { useNavigate } from "react-router-dom";
+import Loader from "../shared/Loader";
+import { Button } from "../ui/button";
 
 type Props = {
   action: "Create" | "Edit",
@@ -14,24 +19,33 @@ type Props = {
 const formValidation = z.object({
   singer: z.string().min(1, { message: "가수명을 추가해주세요." }),
   title: z.string().min(1, { message: "곡명을 추가해주세요." }),
-  image: z.custom<File[]>(),
+  file: z.custom<File[]>(),
   tags: z.string()
 })
 
 const SongForm = ({action, song} : Props) => {
+  const {toast} = useToast();
+  const navigate = useNavigate();
+  const {mutateAsync: createSong, isPending : isCreatingSong} = useCreateSong();
 
   const form = useForm<z.infer<typeof formValidation>>({
     resolver: zodResolver(formValidation),
     defaultValues: {
       singer: song ? song?.singer : "",
       title: song ? song?.title : "",
-      image: [],
+      file: [],
       tags: song ? song.tags.join(",") : "",
     }
   })
 
   const handleSubmit = async (value : z.infer<typeof formValidation>) => {
-    console.log(value);
+    const newSong = await createSong(value);
+
+    if(!newSong){
+      toast({title: "새로운 곡 정보를 추가하는데 실패했습니다. 잠시후 다시 시도 해주세요."})
+    }
+
+    navigate("/");
   }
 
   return (
@@ -73,7 +87,7 @@ const SongForm = ({action, song} : Props) => {
         {/* image */}
         <FormField 
           control={form.control}
-          name="image"
+          name="file"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-input_label">커버 이미지 업로드</FormLabel>
@@ -99,8 +113,23 @@ const SongForm = ({action, song} : Props) => {
             </FormItem>
           )}
         />
-        
 
+
+        {/* Button */}
+        <div className="flex justify-end">
+          <Button className="shad-button_primary" type="submit">
+            {isCreatingSong ? (
+              <>
+                <Loader />생성 중 . . .
+              </>            
+            ): (
+                <>
+                생성하기
+              </>
+            )}
+          </Button>
+        </div>
+      
       </form>
     </Form>
   )

@@ -1,6 +1,7 @@
-import { NewUserType } from '@/types';
-import {useMutation} from '@tanstack/react-query';
-import { LoginAccount, Logout, createNewAccount } from '../appwrite/api';
+import { NewSongType, NewUserType } from '@/types';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import { LoginAccount, Logout, createNewAccount, createSong } from '../appwrite/api';
+import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
 // AUTH QUERIES
@@ -21,5 +22,24 @@ export const useLoginAccount = () => {
 export const useLogout = () => {
   return useMutation({
     mutationFn: Logout,
+  })
+}
+
+
+// ============================================================
+// SONG QUERIES
+// ============================================================
+
+export const useCreateSong = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (song: NewSongType) => createSong(song),
+
+    // 곡 정보 생성에 성공하면 home 페이지로 라우팅 되는 이후 동작을 예측해서 미리 home 페이지에 전시할 곡 리스트를 서버에서 fetch
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_SONGS],
+      })
+    }
   })
 }

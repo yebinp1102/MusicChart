@@ -37,10 +37,10 @@ const FileUploader = ({fieldChange, mediaUrl} : Props) => {
               <img 
                 src={fileUrl} 
                 alt="img" 
-                className="w-80 h-80 lg:w-[480px] lg:h-[480px] rounded-[24px] object-cover object-top" 
+                className="w-80 h-80 lg:w-[480px] lg:h-[480px] rounded-[24px] object-cover object-center" 
               />
             </div>
-            <p className="text-light-3 text-center w-fill p-4">사진을 바꾸려면 이미지를 클릭하거나 이미지를 드래그 해주세요.</p>
+            <p className="text-light-3 text-center w-fill pb-10">사진을 바꾸려면 이미지를 클릭하거나 이미지를 드래그 해주세요.</p>
           </>
         ): (
           <div className="flex flex-col items-center justify-center p-16 h-80 lg:h-[612px]">
