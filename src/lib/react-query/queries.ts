@@ -1,6 +1,6 @@
 import { NewSongType, NewUserType } from '@/types';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, createNewAccount, createSong } from '../appwrite/api';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import { LoginAccount, Logout, createNewAccount, createSong, getRecentSongs } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -41,5 +41,12 @@ export const useCreateSong = () => {
         queryKey: [QUERY_KEYS.GET_RECENT_SONGS],
       })
     }
+  })
+}
+
+export const useGetRecentSongs = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_RECENT_SONGS],
+    queryFn: getRecentSongs
   })
 }

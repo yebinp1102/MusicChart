@@ -146,7 +146,7 @@ export const uploadFile = async (file : File) => {
   }
 }
 
-// image preview를 위해 file의 url을 반환하는 함수
+// image preview를 위해 file의 url을 반환하는 함수, 프로미스를 반환하지 않기 때문에 async 키워드 xxx
 export const getFilePreview = (fileId: string) => {
   try {
     const fileUrl = storage.getFilePreview(
@@ -169,6 +169,22 @@ export const getFilePreview = (fileId: string) => {
 export const deleteFile = async (fileId : string) => {
   try {
     await storage.deleteFile(appwriteConfig.storageId, fileId);
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const getRecentSongs = async () => {
+  try{
+    const songs = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(10)]
+    )
+    
+    if(!songs) throw Error;
+
+    return songs;
   }catch(err){
     console.log(err);
   }
