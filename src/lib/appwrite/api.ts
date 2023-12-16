@@ -179,7 +179,7 @@ export const getRecentSongs = async () => {
     const songs = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.songCollectionId,
-      [Query.orderDesc("$createdAt"), Query.limit(10)]
+      [Query.orderDesc("$createdAt"), Query.limit(9)]
     )
     
     if(!songs) throw Error;

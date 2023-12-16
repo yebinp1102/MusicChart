@@ -16,7 +16,7 @@ const TopBar = () => {
   },[isSuccess])
 
   return (
-    <section className="w-full md:hidden sticky top-0 z-50 bg-dark-3">
+    <section className="w-full lg:hidden sticky top-0 z-50 bg-dark-3">
       <div className="p-5 flex justify-between items-center">
         {/* left side : logo */}
         <Link to="/" className="flex gap-2 items-center">

@@ -24,7 +24,7 @@ const LeftSideBar = () => {
   }
 
   return (
-    <nav className="hidden md:flex flex-col justify-between px-6 py-10 min-w-[270px] border-r">
+    <nav className="hidden lg:flex flex-col bg-dark-3 justify-between pl-6 py-10 min-w-[250px]">
       <div className="flex flex-col gap-5">
         {/* Logo */}
         <Link to="/" className="flex gap-2 items-center mb-8 pl-2">
@@ -118,7 +118,7 @@ const LeftSideBar = () => {
         )}
 
 
-        <Button variant="ghost" className="shad-button_primary" onClick={(e) => handleLogout(e)}>
+        <Button variant="ghost" className="shad-button_primary mr-2" onClick={(e) => handleLogout(e)}>
           <MdLogout />
           <p>로그아웃</p>
         </Button>

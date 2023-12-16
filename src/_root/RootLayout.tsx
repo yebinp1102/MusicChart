@@ -8,12 +8,12 @@ const RootLayout = () => {
 
 
   return (
-    <div className="w-full md:flex">
+    <div className="w-full lg:flex">
       <TopBar />
       <LeftSideBar />
 
 
-      <section className="flex flex-1 h-full">
+      <section className="flex w-full flex-1 overflow-x-hidden">
         <Outlet />
       </section>
 

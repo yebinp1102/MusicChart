@@ -58,6 +58,10 @@
   .shad-button_primary {
     @apply bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
   }
+
+  .shad-button_primary_outline {
+    @apply border-primary-500 border-2 text-primary-500 rounded-2xl flex gap-2 !important;
+  }
   
   .shad-button_dark_4 {
     @apply h-12 bg-dark-4 px-5 text-light-1 flex gap-2 !important;
