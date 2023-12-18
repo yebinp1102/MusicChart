@@ -7,3 +7,4 @@ export {default as Playlist} from "./Playlist";
 export {default as Profile} from "./Profile";
 export {default as RecentPlayed} from "./RecentPlayed";
 export {default as CreateSong} from "./CreateSong";
+export {default as SongDetail} from "./SongDetail";

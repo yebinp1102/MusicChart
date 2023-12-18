@@ -189,3 +189,21 @@ export const getRecentSongs = async () => {
     console.log(err);
   }
 }
+
+
+export const getSongDetail = async (songId?: string) => {
+  if(!songId) throw Error;
+  try{
+    const song = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      songId
+    );
+
+    if(!song) throw Error;
+
+    return song
+  }catch(err){
+    console.log(err);
+  }
+}
