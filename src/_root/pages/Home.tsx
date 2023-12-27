@@ -133,10 +133,7 @@ const Home = () => {
         </div>
 
       </div>
-
-
-
-        
+    
         {/* 인기곡 나열 */}
         <div className=" max-w-full px-10 mt-10">
             <h2 className="text-xl font-semibold mb-4">인기곡</h2>
