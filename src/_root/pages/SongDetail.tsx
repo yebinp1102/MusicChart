@@ -1,3 +1,4 @@
+import AddPlaylistBtn from "@/components/shared/AddPlaylistBtn";
 import Likes from "@/components/shared/Likes";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,7 @@ const SongDetail = () => {
     }
   }, []);
 
-  if (!song || isSongLoading) return <Loader />;
+  if (!song || isGettingDetail) return <Loader />;
 
   return (
     <div className="w-full h-screen">
@@ -63,12 +64,7 @@ const SongDetail = () => {
                       height={20}
                     />
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="shad-button_primary_outline lg:py-4 lg:px-6 py-3 px-5 font-thin"
-                  >
-                    리스트에 추가하기
-                  </Button>
+                  <AddPlaylistBtn song={song} userId={user.id}/>
                 </div>
               
               </div>
@@ -97,40 +93,45 @@ const SongDetail = () => {
           <p className="mb-10 lg:mt-0 mt-10 text-center lg:text-left text-[20px] font-bold tracking-wide px-3">
             유사한 추천 곡
           </p>
-          {windowSize > 1024 ? (
-            <ul className="flex gap-8">
-              {songs?.documents.slice(0, 5).map((song) => (
-                <li key={song.$id} className="glass-box">
-                  <Link to={`/song/detail/${song.$id}`}>
-                    <img
-                      className="lg:p-4 pb-0"
-                      src={song.imageUrl}
-                      alt={song.title}
-                    />
-                    <div className="text-center pb-5">
-                      <p className="lg:text-sm">
-                        {song.title}
-                      </p>
-                      <p className="text-xs text-light-3 mt-2">{song.singer}</p>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <ul className="grid grid-3 gap-8 max-w-[600px] mx-auto">
-              {songs?.documents.slice(0,6).map((song) => (
-                <Link to={`/song/detail/${song.$id}`} className="glass-box overflow-hidden">
-                  <li className="flex flex-col items-center">
-                    <img className="sm:w-[160px] sm:h-[160px] w-[140px] h-[140px] object-contain" src={song.imageUrl} alt={song.title} />
-                    <div className="text-center text-light-3 py-3">
-                      <p className="text-sm">{song.title}</p>
-                    </div>
-                  </li>
-                </Link>
-              ))}
-            </ul>
+          {isSongLoading ? <Loader /> : (
+            <>
+              {windowSize > 1024 ? (
+                <ul className="flex gap-8">
+                  {songs?.documents.slice(0, 5).map((song) => (
+                    <li key={song.$id} className="glass-box">
+                      <Link to={`/song/detail/${song.$id}`}>
+                        <img
+                          className="lg:p-4 pb-0"
+                          src={song.imageUrl}
+                          alt={song.title}
+                        />
+                        <div className="text-center pb-5">
+                          <p className="lg:text-sm">
+                            {song.title}
+                          </p>
+                          <p className="text-xs text-light-3 mt-2">{song.singer}</p>
+                        </div>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                ) : (
+                <ul className="grid grid-3 gap-8 max-w-[600px] mx-auto">
+                  {songs?.documents.slice(0,6).map((song) => (
+                    <Link to={`/song/detail/${song.$id}`} className="glass-box overflow-hidden">
+                      <li className="flex flex-col items-center">
+                        <img className="sm:w-[160px] sm:h-[160px] w-[140px] h-[140px] object-contain" src={song.imageUrl} alt={song.title} />
+                        <div className="text-center text-light-3 py-3">
+                          <p className="text-sm">{song.title}</p>
+                        </div>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              )}
+            </>
           )}
+
         </div>
       </div>
     </div>

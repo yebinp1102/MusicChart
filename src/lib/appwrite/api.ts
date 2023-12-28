@@ -210,7 +210,7 @@ export const getSongDetail = async (songId?: string) => {
 
 export const likeSong = async(songId: string, likesArray: string[]) => {
   try{
-    const updatedPost = await databases.updateDocument(
+    const updatedSong = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.songCollectionId,
       songId,
@@ -218,8 +218,40 @@ export const likeSong = async(songId: string, likesArray: string[]) => {
         likes: likesArray
       }
     );
-    if(!updatedPost) throw Error;
-    return updatedPost
+    if(!updatedSong) throw Error;
+    return updatedSong
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const addToPlaylist = async (userId: string, songId:string) => {
+  try{
+    const updatedSong = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.playlistCollectionId,
+      ID.unique(),
+      {
+        user: userId,
+        song: songId
+      }
+    );
+    if(!updatedSong) throw Error;
+    return updatedSong;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const deleteAddedSong = async (songId: string) => {
+  try{
+    const statusCode = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.playlistCollectionId,
+      songId
+    );
+    if(!statusCode) throw Error;
+    return {status: 'Success'};
   }catch(err){
     console.log(err);
   }

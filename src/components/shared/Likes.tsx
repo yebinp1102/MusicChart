@@ -8,7 +8,6 @@ type Props = {
 }
 
 const Likes = ({song, userId}: Props) => {
-  console.log(song, userId);
   const likesList = song.likes.map((user: Models.Document) => user.$id);
   const [likes, setLikes] = useState<string[]>(likesList);
   const {mutate: likeSong} = useLikeSong();
