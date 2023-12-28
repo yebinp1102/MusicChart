@@ -207,3 +207,20 @@ export const getSongDetail = async (songId?: string) => {
     console.log(err);
   }
 }
+
+export const likeSong = async(songId: string, likesArray: string[]) => {
+  try{
+    const updatedPost = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      songId,
+      {
+        likes: likesArray
+      }
+    );
+    if(!updatedPost) throw Error;
+    return updatedPost
+  }catch(err){
+    console.log(err);
+  }
+}

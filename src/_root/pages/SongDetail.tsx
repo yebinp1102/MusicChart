@@ -1,5 +1,7 @@
+import Likes from "@/components/shared/Likes";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/context/AuthContext";
 import { useGetRecentSongs, useGetSongDetail } from "@/lib/react-query/queries";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -8,8 +10,8 @@ const SongDetail = () => {
   const { id } = useParams();
   const { data: song, isPending: isGettingDetail } = useGetSongDetail(id);
   const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
-  console.log(windowSize);
   const { data: songs, isPending: isSongLoading } = useGetRecentSongs();
+  const {user} = useUserContext();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -50,21 +52,25 @@ const SongDetail = () => {
               </div>
 
               {/* button */}
-              <div className="flex gap-3 lg:mt-12 mt-10 items-center">
-                <Button className="shad-button_primary flex items-center lg:py-3 py-2 lg:px-10 px-8">
-                  <p className="pb-0.5 font-thin">재생</p>
-                  <img
-                    src="/assets/icons/play-btn.svg"
-                    width={20}
-                    height={20}
-                  />
-                </Button>
-                <Button
-                  variant="outline"
-                  className="shad-button_primary_outline lg:py-4 lg:px-6 py-3 px-5 font-thin"
-                >
-                  리스트에 추가하기
-                </Button>
+              <div className="flex flex-col lg:mt-12 mt-10">
+                <Likes song={song} userId={user.id} />
+                <div className="flex gap-3 mt-5 items-center">
+                  <Button className="shad-button_primary flex items-center lg:py-3 py-2 lg:px-10 px-8">
+                    <p className="pb-0.5 font-thin">재생</p>
+                    <img
+                      src="/assets/icons/play-btn.svg"
+                      width={20}
+                      height={20}
+                    />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="shad-button_primary_outline lg:py-4 lg:px-6 py-3 px-5 font-thin"
+                  >
+                    리스트에 추가하기
+                  </Button>
+                </div>
+              
               </div>
             </div>
 
@@ -89,7 +95,7 @@ const SongDetail = () => {
         {/* 유사곡 */}
         <div className="flex flex-col lg:max-w-6xl lg:mx-auto h-full justify-center lg:pb-16">
           <p className="mb-10 lg:mt-0 mt-10 text-center lg:text-left text-[20px] font-bold tracking-wide px-3">
-            비슷한 추천 곡
+            유사한 추천 곡
           </p>
           {windowSize > 1024 ? (
             <ul className="flex gap-8">
@@ -114,7 +120,7 @@ const SongDetail = () => {
           ) : (
             <ul className="grid grid-3 gap-8 max-w-[600px] mx-auto">
               {songs?.documents.slice(0,6).map((song) => (
-                <Link to={``} className="glass-box overflow-hidden">
+                <Link to={`/song/detail/${song.$id}`} className="glass-box overflow-hidden">
                   <li className="flex flex-col items-center">
                     <img className="sm:w-[160px] sm:h-[160px] w-[140px] h-[140px] object-contain" src={song.imageUrl} alt={song.title} />
                     <div className="text-center text-light-3 py-3">
