@@ -18,3 +18,10 @@ export type NavLinkType = {
   route: string;
   label: string;
 }
+
+export type NewSongType = {
+  singer: string;
+  title: string;
+  file: File[];
+  tags?: string;
+}

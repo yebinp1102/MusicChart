@@ -51,12 +51,36 @@
   .leftsidebar-link {
     @apply rounded-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
   }
+
+  .detail_banner_background{
+    background: rgb(0,173,181);
+    background: linear-gradient(180deg, rgba(0,173,181,1) 0%, rgba(0,0,0,0.7189250700280112) 100%);
+  }
+  .glass-box {
+    border: 1px solid rgba(0, 173, 181, 0.3);
+    cursor: pointer;
+    transition: all 200ms;
+    border-radius: 10px;
+    box-shadow: 4px 6px 8px rgba(0, 173, 181, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  .glass-box:hover{
+    transform: scale(1.05);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @layer components {
   /* Button */
   .shad-button_primary {
     @apply bg-primary-500 text-light-1 rounded-2xl flex gap-2 !important;
+  }
+
+  .shad-button_primary_outline {
+    @apply border-primary-500 border-2 text-primary-500 rounded-2xl flex gap-2 !important;
   }
   
   .shad-button_dark_4 {

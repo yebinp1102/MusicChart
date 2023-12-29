@@ -2,21 +2,24 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../ui/button"
 import { MdLogout } from "react-icons/md";
 import { useLogout } from "@/lib/react-query/queries";
-import { useEffect } from "react";
-import { useUserContext } from "@/context/AuthContext";
+import { InitialUser, useUserContext } from "@/context/AuthContext";
 
 
 const TopBar = () => {
   const navigate = useNavigate();
-  const {user} = useUserContext();
-  const {mutate: Logout, isSuccess} = useLogout();
+  const {mutate: logout} = useLogout();
+  const {user, setUser, setIsAuthenticated} = useUserContext();
 
-  useEffect(() => {
-    if(isSuccess) navigate(0); // 새로고침
-  },[isSuccess])
+  const handleLogout = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    logout();
+    setIsAuthenticated(false);
+    setUser(InitialUser);
+    navigate('/login');
+  }
 
   return (
-    <section className="w-full md:hidden sticky top-0 z-50 bg-dark-3">
+    <section className="w-full lg:hidden sticky top-0 z-50 bg-dark-3">
       <div className="p-5 flex justify-between items-center">
         {/* left side : logo */}
         <Link to="/" className="flex gap-2 items-center">
@@ -35,7 +38,7 @@ const TopBar = () => {
           <Button
             variant="ghost"
             className="shad-button_primary"
-            onClick={() => Logout()}
+            onClick={(e) => handleLogout(e)}
           >
             로그아웃
             <MdLogout />

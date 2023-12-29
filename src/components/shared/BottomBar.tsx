@@ -6,7 +6,7 @@ const BottomBar = () => {
   const {pathname} = useLocation();
 
   return (
-    <nav className="flex z-50 w-full md:hidden sticky bottom-0 justify-between bg-dark-3 py-4 px-5 rounded-t-[20px] gap-3">
+    <nav className="flex z-50 w-full lg:hidden sticky bottom-0 justify-between bg-dark-3 py-4 px-5 rounded-t-[20px] gap-3">
 
       {bottomLinks.map((link: NavLinkType) => {
         const isActive = pathname === link.route
