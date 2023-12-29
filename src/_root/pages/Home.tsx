@@ -26,8 +26,6 @@ const Home = () => {
     }
   },[])
 
-  console.log(windowSize);
-
   const song = songs?.documents[0]
   if(isErrorSongs){
     return (

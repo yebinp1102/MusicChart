@@ -3,6 +3,7 @@ import { Button } from '../ui/button'
 import { useAddToPlaylist, useDeleteAddedSong, useGetCurrentUser } from '@/lib/react-query/queries';
 import { Models } from 'appwrite';
 import Loader from './Loader';
+import { useToast } from '../ui/use-toast';
 
 type Props = {
   song : Models.Document,
@@ -14,6 +15,7 @@ const AddPlaylistBtn = ({song, userId} : Props) => {
   const {data: currentUser} = useGetCurrentUser();
   const {mutate: addSongToPlaylist, isPending: isAddingSongToPlaylist} = useAddToPlaylist();
   const {mutate: deleteSongFromPlaylist, isPending : isDeletingSongFormPlaylist} = useDeleteAddedSong()
+  const {toast} = useToast();
 
   const addedSongRecord = currentUser?.playlist.find(
     (record: Models.Document) => record.song.$id === song.$id
@@ -26,13 +28,16 @@ const AddPlaylistBtn = ({song, userId} : Props) => {
 
   const handleAddPlaylist = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if(!addedSongRecord){
-      addSongToPlaylist({userId: userId, songId: song.$id});
-      setIsAdded(true);
-    }else{
+    
+    if(addedSongRecord){
       setIsAdded(false);
+      toast({title: "플레이리스트에서 제거 되었습니다."});
       return deleteSongFromPlaylist(addedSongRecord.$id);
     }
+
+    addSongToPlaylist({userId: userId, songId: song.$id});
+    setIsAdded(true);
+    toast({title: `플레이리스트에 추가 되었습니다.`});
   }
 
   return (
