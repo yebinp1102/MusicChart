@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
 import { useGetRecentSongs, useGetSongDetail } from "@/lib/react-query/queries";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const SongDetail = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { data: song, isPending: isGettingDetail } = useGetSongDetail(id);
   const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
@@ -48,8 +49,21 @@ const SongDetail = () => {
             <div className="flex flex-col justify-center lg:px-5 px-1">
               {/* introduction */}
               <div>
-                <p className="lg:h2-bold h3-bold mb-3">{song?.title}</p>
+                <div className="flex items-center gap-4">
+                  <p className="lg:h2-bold h3-bold mb-3">{song?.title}</p>
+                  {user.isAdmin && (
+                    <Button className="right-0 relative cursor-pointer" onClick={() => navigate(`/edit-song/${id}`)}>
+                    <img 
+                      src="/assets/icons/config.svg" 
+                      className=" absolute right-0 top-1" 
+                      width={25} 
+                      height={25} 
+                    />
+                  </Button>
+                  )}
+                </div>
                 <p className="text-light-3">{song?.singer}</p>
+
               </div>
 
               {/* button */}
