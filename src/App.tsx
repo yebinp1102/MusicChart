@@ -3,6 +3,7 @@ import LoginFrom from './_auth/form/LoginFrom';
 import RegisterForm from './_auth/form/RegisterForm';
 import RootLayout from './_root/RootLayout';
 import { Chart, Explore, Genre, Home, LikedList, RecentPlayed, Playlist, Profile, CreateSong, SongDetail } from './_root/pages';
+import EditSong from './_root/pages/EditSong';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
 import { Routes, Route } from 'react-router-dom';
@@ -29,6 +30,7 @@ const App = () => {
           <Route path='/profile/:id/*' element={<Profile />} />
           <Route path='/list-recently-played' element={<RecentPlayed />} />
           <Route path='/create-post' element={<CreateSong />} />
+          <Route path='/edit-song/:id' element={<EditSong />} />
         </Route>
 
       </Routes>
