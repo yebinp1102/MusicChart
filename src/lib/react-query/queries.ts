@@ -1,6 +1,6 @@
-import { NewSongType, NewUserType } from '@/types';
+import { NewSongType, NewUserType, UpdateSongType } from '@/types';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, getCurrentUser, getRecentSongs, getSongDetail, likeSong } from '../appwrite/api';
+import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getRecentSongs, getSongDetail, likeSong } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -39,6 +39,18 @@ export const useCreateSong = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_RECENT_SONGS],
+      })
+    }
+  })
+}
+
+export const useEditSong = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (song: UpdateSongType) => editSong(song),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_SONG_DETAIL, data?.$id],
       })
     }
   })

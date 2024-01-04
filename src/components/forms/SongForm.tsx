@@ -5,7 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import FileUploader from "../shared/FileUploader";
-import { useCreateSong } from "@/lib/react-query/queries";
+import { useCreateSong, useEditSong } from "@/lib/react-query/queries";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../shared/Loader";
@@ -27,6 +27,7 @@ const SongForm = ({action, song} : Props) => {
   const {toast} = useToast();
   const navigate = useNavigate();
   const {mutateAsync: createSong, isPending : isCreatingSong} = useCreateSong();
+  const {mutateAsync: editSong, isPending: isEditingSong} = useEditSong();
 
   const form = useForm<z.infer<typeof formValidation>>({
     resolver: zodResolver(formValidation),
@@ -118,13 +119,13 @@ const SongForm = ({action, song} : Props) => {
         {/* Button */}
         <div className="flex justify-end">
           <Button className="shad-button_primary" type="submit">
-            {isCreatingSong ? (
+            {isCreatingSong || isEditingSong ? (
               <>
-                <Loader />생성 중 . . .
+                <Loader /> 곡 {isCreatingSong ? '생성' : '수정'} 중 . . .
               </>            
             ): (
                 <>
-                생성하기
+                {action === "Create" ? '생성하기' : "수정하기"}
               </>
             )}
           </Button>

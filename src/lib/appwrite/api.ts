@@ -1,4 +1,4 @@
-import { NewSongType, NewUserType } from "@/types";
+import { NewSongType, NewUserType, UpdateSongType } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -128,6 +128,58 @@ export const createSong = async (song : NewSongType) => {
     }
 
     return newSong;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const editSong = async (song: UpdateSongType) => {
+  const hasFileToEdit = song.file.length > 0;
+  try{
+    let image = {
+      imageUrl: song.imageUrl,
+      imageId: song.imageId
+    }
+
+    // upload new image to appwrite storage
+    if(hasFileToEdit){
+      const uploadedFile = await uploadFile(song.file[0]);
+      if(!uploadedFile) throw Error;
+
+      // get new image url from appwrite
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if(!fileUrl){
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      image = {...image, imageUrl: fileUrl, imageId: uploadedFile.$id};
+    }
+    const tags = song.tags?.replace(/ /g, "").split(",") || [];
+    
+    const editedSong = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      song.songId,
+      {
+        title: song.title,
+        imageUrl: song.imageUrl,
+        imageId: song.imageId,
+        singer: song.singer,
+        tags: tags,
+      }
+    )
+
+    // faile to edit file
+    if(!editedSong){
+      if(hasFileToEdit) await deleteFile(image.imageId);
+      throw Error;
+    }
+
+    // safely delete old image
+    if(hasFileToEdit) await deleteFile(song.imageId);
+
+    return editedSong;
   }catch(err){
     console.log(err);
   }

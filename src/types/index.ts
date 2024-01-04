@@ -25,3 +25,13 @@ export type NewSongType = {
   file: File[];
   tags?: string;
 }
+
+export type UpdateSongType = {
+  songId: string;
+  imageId: string;
+  imageUrl: URL;
+  singer: string;
+  title: string;
+  file: File[];
+  tags?: string;
+}
