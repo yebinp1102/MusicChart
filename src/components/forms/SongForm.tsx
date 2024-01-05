@@ -5,7 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import FileUploader from "../shared/FileUploader";
-import { useCreateSong } from "@/lib/react-query/queries";
+import { useCreateSong, useEditSong } from "@/lib/react-query/queries";
 import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../shared/Loader";
@@ -27,6 +27,7 @@ const SongForm = ({action, song} : Props) => {
   const {toast} = useToast();
   const navigate = useNavigate();
   const {mutateAsync: createSong, isPending : isCreatingSong} = useCreateSong();
+  const {mutateAsync: editSong, isPending: isEditingSong} = useEditSong();
 
   const form = useForm<z.infer<typeof formValidation>>({
     resolver: zodResolver(formValidation),
@@ -38,8 +39,24 @@ const SongForm = ({action, song} : Props) => {
     }
   })
 
-  const handleSubmit = async (value : z.infer<typeof formValidation>) => {
-    const newSong = await createSong(value);
+  const handleSubmit = async (values : z.infer<typeof formValidation>) => {
+
+    // 편집 할 때, editSong 함수 호출
+    if(song && action === "Edit"){
+      const editedSong = await editSong({
+        ...values,
+        songId: song.$id,
+        imageId: song.imageId,
+        imageUrl: song.imageUrl,
+      })
+      if(!editedSong){
+        toast({title: "다시 시도해주세요."})
+      }
+      return navigate(`/song/detail/${song.$id}`)
+    }
+
+    // 새로 생성할 때, createSong 함수 호출
+    const newSong = await createSong(values);
 
     if(!newSong){
       toast({title: "새로운 곡 정보를 추가하는데 실패했습니다. 잠시후 다시 시도 해주세요."})
@@ -117,14 +134,14 @@ const SongForm = ({action, song} : Props) => {
 
         {/* Button */}
         <div className="flex justify-end">
-          <Button className="shad-button_primary" type="submit">
-            {isCreatingSong ? (
+          <Button className="shad-button_primary" type="submit" disabled={isCreatingSong || isEditingSong}>
+            {isCreatingSong || isEditingSong ? (
               <>
-                <Loader />생성 중 . . .
+                <Loader /> 로딩 중 . . .
               </>            
             ): (
                 <>
-                생성하기
+                {action === "Create" ? '생성하기' : "수정하기"}
               </>
             )}
           </Button>

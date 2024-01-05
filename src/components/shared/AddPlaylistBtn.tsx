@@ -20,7 +20,6 @@ const AddPlaylistBtn = ({song, userId} : Props) => {
   const addedSongRecord = currentUser?.playlist.find(
     (record: Models.Document) => record.song.$id === song.$id
   )
-  console.log(currentUser)
 
   useEffect(() => {
     setIsAdded(!!addedSongRecord)
