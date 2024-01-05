@@ -39,8 +39,24 @@ const SongForm = ({action, song} : Props) => {
     }
   })
 
-  const handleSubmit = async (value : z.infer<typeof formValidation>) => {
-    const newSong = await createSong(value);
+  const handleSubmit = async (values : z.infer<typeof formValidation>) => {
+
+    // 편집 할 때, editSong 함수 호출
+    if(song && action === "Edit"){
+      const editedSong = await editSong({
+        ...values,
+        songId: song.$id,
+        imageId: song.imageId,
+        imageUrl: song.imageUrl,
+      })
+      if(!editedSong){
+        toast({title: "다시 시도해주세요."})
+      }
+      return navigate(`/song/detail/${song.$id}`)
+    }
+
+    // 새로 생성할 때, createSong 함수 호출
+    const newSong = await createSong(values);
 
     if(!newSong){
       toast({title: "새로운 곡 정보를 추가하는데 실패했습니다. 잠시후 다시 시도 해주세요."})
@@ -118,10 +134,10 @@ const SongForm = ({action, song} : Props) => {
 
         {/* Button */}
         <div className="flex justify-end">
-          <Button className="shad-button_primary" type="submit">
+          <Button className="shad-button_primary" type="submit" disabled={isCreatingSong || isEditingSong}>
             {isCreatingSong || isEditingSong ? (
               <>
-                <Loader /> 곡 {isCreatingSong ? '생성' : '수정'} 중 . . .
+                <Loader /> 로딩 중 . . .
               </>            
             ): (
                 <>
