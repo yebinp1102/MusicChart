@@ -1,13 +1,6 @@
 
 # 프로젝트 이름 : Music Chart
 
-<p align="center">
-  <br>
-  <img src="public/assets//images/thumbnail.png">
-  <br>
-</p>
-
-
 ## 프로젝트 소개
 
 <p align="justify">
@@ -15,7 +8,9 @@
 </p>
 
 <p align="center">
-GIF Images
+  <br>
+  <img src="public/assets//images/thumbnail.png">
+  <br>
 </p>
 
 <br>
@@ -57,4 +52,4 @@ GIF Images
 [html]: public/assets/icons/html.svg
 [tailwind]: public/assets/icons/tailwind.svg
 [appwrite]: public/assets/icons/appwrite.png
-[react-query] : public/assets/icons/react-query.svg
+[react-query]: public/assets/icons/react-query.svg
