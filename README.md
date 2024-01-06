@@ -1,30 +1,60 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 프로젝트 이름 : Music Chart
 
-Currently, two official plugins are available:
+<p align="center">
+  <br>
+  <img src="public/assets//images/thumbnail.png">
+  <br>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 프로젝트 소개
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+<p align="justify">
+프로젝트 개요/동기
+</p>
 
-- Configure the top-level `parserOptions` property like this:
+<p align="center">
+GIF Images
+</p>
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+<br>
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## 기술 스택
+
+| JavaScript | TypeScript |   HTML   |   Appwrite  |   React   |   React-query  |   Tailwind  |
+| :--------: | :--------: | :------: | :---------: | :-------: | :------------: | :---------: |
+|   ![js]    |   ![ts]    | ![html]  | ![appwrite] |  ![react] |  ![react-query] | ![tailwind] |
+
+<br>
+
+
+## 구현 기능
+
+### 기능 1
+
+### 기능 2
+
+### 기능 3
+
+### 기능 4
+
+<br>
+
+## 배운 점 & 아쉬운 점
+
+<p align="justify">
+
+</p>
+
+<br>
+
+<!-- Stack Icon Refernces -->
+
+[js]: public/assets/icons/javascript.svg
+[ts]: public/assets/icons/typescript.svg
+[react]: public/assets/icons/react.svg
+[html]: public/assets/icons/html.svg
+[tailwind]: public/assets/icons/tailwind.svg
+[appwrite]: public/assets/icons/appwrite.png
+[react-query] : public/assets/icons/react-query.svg
