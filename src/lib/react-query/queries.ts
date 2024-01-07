@@ -1,6 +1,6 @@
 import { NewSongType, NewUserType, UpdateSongType } from '@/types';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getRecentSongs, getSongDetail, likeSong } from '../appwrite/api';
+import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getRecentSongs, getSongDetail, likeSong } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -134,3 +134,19 @@ export const useGetCurrentUser = () => {
     queryFn: getCurrentUser,
   })
 }
+
+export const useGetSongs = () => {
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_INFINITE_SONGS],
+    queryFn: getInfiniteSongs,
+    getNextPageParam: (lastPage) => {
+
+      // 데이터가 없으면 페이지가 더 없다는 뜻이니 null 반환
+      if (lastPage && lastPage.documents.length === 0) return null;
+
+      // 페이지의 마지막 곡의 $id값을 커서로 사용
+      const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+      return lastId;
+    },
+  });
+};

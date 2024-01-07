@@ -308,3 +308,27 @@ export const deleteAddedSong = async (songId: string) => {
     console.log(err);
   }
 }
+
+// 해당 page에 속하는 곡 정보만 fetch하는 API
+export const getInfiniteSongs =async ({pageParam} : {pageParam: number}) => {
+
+  // 불러올 곡의 정보는 한번에 9개씩이며, createdAt을 기준으로 내림차순으로 정렬
+  const queries : any[] = [Query.orderDesc("$createdAt"), Query.limit(10)];
+
+  // pagination을 위해 pageParam 값이 있는 경우, pageParam만큼 페이지를 skip
+  if(pageParam) queries.push(Query.cursorAfter(pageParam.toString()));
+
+  try{
+    const songs = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      queries
+    );
+
+    if(!songs) throw Error;
+
+    return songs;
+  }catch(err){
+    console.log(err);
+  }
+}
