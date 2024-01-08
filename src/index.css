@@ -71,6 +71,22 @@
   .grid-3 {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .grid-container{
+    @apply w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
+  }
+
+  .grid-item:hover{
+    transform: scale(1.1);
+  }
+
+  .blueGreen-linear{
+    background: #348F50;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #56B4D3, #348F50);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #56B4D3, #348F50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+  }
 }
 
 @layer components {
