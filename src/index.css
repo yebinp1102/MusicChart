@@ -81,11 +81,18 @@
   }
 
   .blueGreen-linear{
-    background: #348F50;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #56B4D3, #348F50);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #56B4D3, #348F50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-color: #00dbe9;
+    background-image: linear-gradient(90deg, #00dbe9 0%, #00adb5 100%);
+  }
 
+  .explore-menu-wrap{
+    display:flex;
+    gap: 24px;
+    color: #9DB2BF;
+  }
 
+  .explore-menu-wrap li{
+    cursor: pointer;
   }
 }
 

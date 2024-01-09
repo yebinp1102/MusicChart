@@ -20,7 +20,7 @@ const Explore = () => {
     <div className="explore-container w-full">
       <div className="explore_inner-container">
 
-        <div className="max-w-6xl mx-auto border h-[400px] relative">
+        <div className="max-w-6xl mx-auto h-[400px] relative">
           <img 
             src="public/assets/images/explore-banner.jpg" 
             alt="banner" 
@@ -54,7 +54,7 @@ const Explore = () => {
 
 
             </div>
-            <ul className="flex gap-6 text-light-3 cursor-pointer">
+            <ul className="explore-menu-wrap">
               <li>둘러보기</li>
               <li>앨범</li>
               <li>아티스트</li>
@@ -71,11 +71,9 @@ const Explore = () => {
             {shouldShowSongs ? (
               <p className="">End of songs</p>
             ):(
-              <div>
-                {songs.pages.map((song, idx) => (
+                songs.pages.map((song, idx) => (
                   <GridSongList key={`page-${idx}`} songs={song?.documents} />            
-                ))}
-              </div>
+                ))
             )}
           </div>
         </div>
