@@ -71,6 +71,29 @@
   .grid-3 {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .grid-container{
+    @apply w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
+  }
+
+  .grid-item:hover{
+    transform: scale(1.1);
+  }
+
+  .blueGreen-linear{
+    background-color: #00dbe9;
+    background-image: linear-gradient(90deg, #00dbe9 0%, #00adb5 100%);
+  }
+
+  .explore-menu-wrap{
+    display:flex;
+    gap: 24px;
+    color: #9DB2BF;
+  }
+
+  .explore-menu-wrap li{
+    cursor: pointer;
+  }
 }
 
 @layer components {
