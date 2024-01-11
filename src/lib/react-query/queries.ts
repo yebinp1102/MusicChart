@@ -1,6 +1,6 @@
 import { NewSongType, NewUserType, UpdateSongType } from '@/types';
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getRecentSongs, getSongDetail, likeSong } from '../appwrite/api';
+import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getRecentSongs, getSongDetail, likeSong, searchSongs } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -150,3 +150,12 @@ export const useGetSongs = () => {
     },
   });
 };
+
+export const useSearchSongs = (searchTerm: string) => {
+  return useQuery({
+    // searchTerm이 update 될 때마다 query validation check
+    queryKey: [QUERY_KEYS.SEARCH_SONGS, searchTerm], 
+    queryFn: () => searchSongs(searchTerm),
+    enabled: !!searchTerm
+  })
+}
