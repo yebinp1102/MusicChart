@@ -341,7 +341,7 @@ export const searchSongs = async (searchTerm:string) => {
     const songs = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.songCollectionId,
-      [Query.search("title", searchTerm)]
+      [Query.search("title", searchTerm), Query.limit(5)]
     );
 
     // API를 성공적으로 받지 못하면 에러 throw, 성공적으로 응답받으면 곡정보 return

@@ -2,7 +2,7 @@ import AuthLayout from './_auth/AuthLayout';
 import LoginFrom from './_auth/form/LoginFrom';
 import RegisterForm from './_auth/form/RegisterForm';
 import RootLayout from './_root/RootLayout';
-import { Chart, Explore, Genre, Home, LikedList, RecentPlayed, Playlist, Profile, CreateSong, SongDetail } from './_root/pages';
+import { Chart, Explore, Search, Home, LikedList, RecentPlayed, Playlist, Profile, CreateSong, SongDetail } from './_root/pages';
 import EditSong from './_root/pages/EditSong';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
@@ -24,7 +24,7 @@ const App = () => {
           <Route path='/song/detail/:id' element={<SongDetail />} /> 
           <Route path='/explore' element={<Explore />} />
           <Route path='/chart' element={<Chart />} />
-          <Route path='/genre' element={<Genre />} />
+          <Route path='/search' element={<Search />} />
           <Route path='/list-liked' element={<LikedList />} />
           <Route path='/playlist' element={<Playlist />} />
           <Route path='/profile/:id/*' element={<Profile />} />

@@ -1,5 +1,6 @@
 import GridSongList from "@/components/shared/GridSongList";
 import Loader from "@/components/shared/Loader";
+import SearchInput from "@/components/shared/SearchInput";
 import { Button } from "@/components/ui/button";
 import { useGetSongs } from "@/lib/react-query/queries"
 
@@ -17,10 +18,10 @@ const Explore = () => {
   const shouldShowSongs = songs.pages.every((song) => song?.documents.length === 0)
 
   return (
-    <div className="explore-container w-full">
-      <div className="explore_inner-container">
-
+    <div className="w-full">
+      <div>
         <div className="max-w-6xl mx-auto h-[400px] relative">
+
           <img 
             src="public/assets/images/explore-banner.jpg" 
             alt="banner" 
@@ -49,9 +50,6 @@ const Explore = () => {
                   />
                 </div>  
               </div>
-
-                 
-
 
             </div>
             <ul className="explore-menu-wrap">
