@@ -15,9 +15,9 @@ export const sidebarMenuLinks = [
     label: "뮤직 차트",
   },
   {
-    imgUrl: "/assets/icons/genre.svg",
-    route: "/genre",
-    label: "장르별 음악",
+    imgUrl: "/assets/icons/search.svg",
+    route: "/search",
+    label: "검색하기",
   },
 ]
 

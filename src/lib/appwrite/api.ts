@@ -332,3 +332,22 @@ export const getInfiniteSongs =async ({pageParam} : {pageParam: number}) => {
     console.log(err);
   }
 }
+
+// search song API
+export const searchSongs = async (searchTerm:string) => {
+  try{
+
+    // song의 title 일부가 searchTerm과 일치하는 모든 songs을 return하는 API
+    const songs = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.songCollectionId,
+      [Query.search("title", searchTerm), Query.limit(5)]
+    );
+
+    // API를 성공적으로 받지 못하면 에러 throw, 성공적으로 응답받으면 곡정보 return
+    if(!songs) throw Error;
+    return songs;
+  }catch(err){
+    console.log(err);
+  }
+}

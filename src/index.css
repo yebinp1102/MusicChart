@@ -94,6 +94,11 @@
   .explore-menu-wrap li{
     cursor: pointer;
   }
+
+  .gradient-primary{
+    background: rgb(0,173,181);
+    background: linear-gradient(180deg, rgba(0,173,181,1) 0%, rgba(0,0,0,1) 100%);
+  }
 }
 
 @layer components {
@@ -117,5 +122,13 @@
 
   .shad-input_label{
     @apply text-light-3 ml-2
+  }
+
+  .shad-input_search{
+    @apply w-full border-white border-b-2 py-2 px-2 bg-transparent ;
+  }
+
+  .shad-input_search:focus{
+    outline: none;
   }
 }
