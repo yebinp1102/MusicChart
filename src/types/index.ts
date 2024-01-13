@@ -35,3 +35,29 @@ export type UpdateSongType = {
   file: File[];
   tags?: string;
 }
+
+
+// playlist & track
+export type Playlist = Array<Track>;
+
+export type Track = {
+  audioSrc: string;
+  metadata: TrackMetadata;
+}
+
+export type TrackMetadata = {
+  singer: string;
+  title: string;
+  coverArtSrc: string;
+}
+
+// audio player state
+export type PlayerState = {
+  playbackState: PlaybackState;
+}
+
+export type PlaybackState = 'PLAYING' | 'PAUSED';
+
+export const InitialPlayerState: PlayerState = {
+  playbackState: 'PAUSED', // 사용자가 브라우저 열었을 때는 audio player state를 puased로 디폴트
+}
