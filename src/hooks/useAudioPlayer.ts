@@ -46,11 +46,16 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
     playerRef.current?.cleanup();
   }
 
+  const toggleRepeat = () => {
+    playerRef.current?.toggleRepeat();
+  }
+
   return {
     playerState,
     togglePlayPause,
     playNextTrack,
     playPrevTrack,
-    cleanup
+    cleanup,
+    toggleRepeat
   }
 }

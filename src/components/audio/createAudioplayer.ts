@@ -10,6 +10,12 @@ type Props = {
 
 // 상황에 따라 음악을 재생하거나 멈추는 함수
 export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls => {
+  // 현재 재생중인 곡의 index
+  let currentTrackIndex = 0;
+  const audioElement : HTMLAudioElement = new Audio();
+
+  // repeat mode가 활성화 되어있는지 아닌지 나타냄
+  let repeat = false;
 
   /* === play state === */
   const emitCurrentPlayerState = () => {
@@ -24,7 +30,8 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   }
   const computeCurrentPlayerState = () : PlayerState => {
     return {
-      playbackState: getPlayBackState()
+      playbackState: getPlayBackState(),
+      repeat
     }
   }
 
@@ -33,16 +40,32 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const setupAudioElementListeners = () => {
     audioElement.addEventListener('playing', emitCurrentPlayerState);
     audioElement.addEventListener('pause', emitCurrentPlayerState);
+    audioElement.addEventListener('ended', onCurrentTrackEnded);
+
   }
 
   const removeAudioElementListeners = () => {
     audioElement.removeEventListener('playing', emitCurrentPlayerState);
     audioElement.removeEventListener('pause', emitCurrentPlayerState);
+    audioElement.removeEventListener('ended', onCurrentTrackEnded);
   }
 
-  // 현재 재생중인 곡의 index
-  let currentTrackIndex = 0;
-  const audioElement : HTMLAudioElement = new Audio();
+  // 현재 트랙의 곡이 끝나면 호출될 함수
+  const onCurrentTrackEnded = () => {
+    if(repeat){
+      // repeat 모드가 활성화 된 경우 track을 replay하도록
+      replayCurrentTrack();
+    }else{
+      // repeat 모드가 활성화 X인 경우 다음 트랙 재생
+      playNextTrack();
+    }
+  }
+
+  // repeat 모드가 활성화 된 상태에서 현재 트랙의 곡이 끝나면 트랙을 다시 재생하기 위해 호출되는 함수
+  const replayCurrentTrack = () => {
+    audioElement.currentTime = 0;
+    audioElement.play();
+  }
 
   // 현재 재생 중인 곡을 index로 접근해서 fetch
   const loadTrack = (index:number) => {
@@ -60,6 +83,12 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const cleanup = () => {
     removeAudioElementListeners();
     audioElement.pause();
+  }
+
+  const toggleRepeat = () => {
+    repeat = !repeat; 
+    // repeat값이 변경되면 업데이트된 repeat을 참조할 수 있도록 하기 위해 emitCurrentPlayerState 호출
+    emitCurrentPlayerState();
   }
 
   // 현재 음악의 재생 여부에 따라서 처리하는 동작이 달라짐
@@ -90,6 +119,7 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   init();
 
   return {
+    toggleRepeat,
     togglePlayPause,
     playNextTrack,
     playPrevTrack,

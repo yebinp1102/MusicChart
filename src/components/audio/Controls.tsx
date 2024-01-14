@@ -4,15 +4,19 @@ import nextButtonIcon from '../../../public/assets/icons/ic_next.svg'
 import prevButtonIcon from '../../../public/assets/icons/ic_prev.svg'
 import shuffleButtonIcon from '../../../public/assets/icons/ic_shuffle.svg'
 import repeatButtonIcon from '../../../public/assets/icons/ic_repeat.svg'
+import repeatButtonDisabledIcon from '../../../public/assets/icons/ic_repeat_disabled.svg'
+
 
 type Props = {
   onPlayClick: () => void;
   onPrevClick: () => void;
   onNextClick: () => void;
+  onRepeatClick: () => void;
   isPlaying : boolean;
+  repeat: boolean
 }
 
-const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick} : Props) => {
+const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick, onRepeatClick, repeat} : Props) => {
 
   const onClick = () => {
 
@@ -39,8 +43,8 @@ const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick} : Props) =>
         onClick={onNextClick}
       />
       <ImageButton 
-        src={repeatButtonIcon} 
-        onClick={onClick}
+        src={repeat ? repeatButtonIcon : repeatButtonDisabledIcon} 
+        onClick={onRepeatClick}
       />
     </div>
   )
