@@ -35,6 +35,11 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     audioElement.addEventListener('pause', emitCurrentPlayerState);
   }
 
+  const removeAudioElementListeners = () => {
+    audioElement.removeEventListener('playing', emitCurrentPlayerState);
+    audioElement.removeEventListener('pause', emitCurrentPlayerState);
+  }
+
   // 현재 재생중인 곡의 index
   let currentTrackIndex = 0;
   const audioElement : HTMLAudioElement = new Audio();
@@ -50,6 +55,11 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const init = () => {
     setupAudioElementListeners();
     loadTrack(0);
+  }
+
+  const cleanup = () => {
+    removeAudioElementListeners();
+    audioElement.pause();
   }
 
   // 현재 음악의 재생 여부에 따라서 처리하는 동작이 달라짐
@@ -82,7 +92,8 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   return {
     togglePlayPause,
     playNextTrack,
-    playPrevTrack
+    playPrevTrack,
+    cleanup
   };
 }
 

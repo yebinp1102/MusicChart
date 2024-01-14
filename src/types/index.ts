@@ -56,6 +56,7 @@ export type Controls = {
   togglePlayPause: () => void;
   playNextTrack: () => void;
   playPrevTrack: () => void;
+  cleanup: () => void;
 };
 
 // audio player state
