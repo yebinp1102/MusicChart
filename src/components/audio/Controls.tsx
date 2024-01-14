@@ -7,10 +7,12 @@ import repeatButtonIcon from '../../../public/assets/icons/ic_repeat.svg'
 
 type Props = {
   onPlayClick: () => void;
+  onPrevClick: () => void;
+  onNextClick: () => void;
   isPlaying : boolean;
 }
 
-const Controls = ({onPlayClick, isPlaying} : Props) => {
+const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick} : Props) => {
 
   const onClick = () => {
 
@@ -24,7 +26,7 @@ const Controls = ({onPlayClick, isPlaying} : Props) => {
       />
       <ImageButton 
         src={prevButtonIcon} 
-        onClick={onClick}
+        onClick={onPrevClick}
       />
       <ImageButton 
         src={isPlaying ? pauseButtonIcon : playButtonIcon} 
@@ -34,7 +36,7 @@ const Controls = ({onPlayClick, isPlaying} : Props) => {
       />
       <ImageButton 
         src={nextButtonIcon} 
-        onClick={onClick}
+        onClick={onNextClick}
       />
       <ImageButton 
         src={repeatButtonIcon} 

@@ -51,6 +51,13 @@ export type TrackMetadata = {
   coverArtSrc: string;
 }
 
+// audio controls
+export type Controls = {
+  togglePlayPause: () => void;
+  playNextTrack: () => void;
+  playPrevTrack: () => void;
+};
+
 // audio player state
 export type PlayerState = {
   playbackState: PlaybackState;
