@@ -54,6 +54,7 @@ export type TrackMetadata = {
 // audio controls
 export type Controls = {
   togglePlayPause: () => void;
+  toggleShuffle: () => void;
   playNextTrack: () => void;
   playPrevTrack: () => void;
   cleanup: () => void;
@@ -64,6 +65,7 @@ export type Controls = {
 export type PlayerState = {
   playbackState: PlaybackState;
   repeat: boolean; // repeat mode 중이면 true, 아니면 false
+  shuffle: boolean;
 }
 
 export type PlaybackState = 'PLAYING' | 'PAUSED';
@@ -71,4 +73,5 @@ export type PlaybackState = 'PLAYING' | 'PAUSED';
 export const InitialPlayerState: PlayerState = {
   playbackState: 'PAUSED', // 사용자가 브라우저 열었을 때는 audio player state를 puased로 디폴트
   repeat: false,
+  shuffle: false,
 }

@@ -16,6 +16,7 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
 
   // repeat mode가 활성화 되어있는지 아닌지 나타냄
   let repeat = false;
+  let shuffle = false;
 
   /* === play state === */
   const emitCurrentPlayerState = () => {
@@ -31,7 +32,8 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const computeCurrentPlayerState = () : PlayerState => {
     return {
       playbackState: getPlayBackState(),
-      repeat
+      repeat,
+      shuffle,
     }
   }
 
@@ -68,10 +70,29 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   }
 
   // 현재 재생 중인 곡을 index로 접근해서 fetch
-  const loadTrack = (index:number) => {
+  const loadTrack = (index:number) => { 
     audioElement.src = playlist[index].audioSrc;
     audioElement.load();
     currentTrackIndex = index;
+  }
+
+  const computeNextTrackIndex = () : number => {
+    return shuffle ? computeRandomTrackIndex() : computeSubsequentTrackIndex();
+  }
+
+  const computeSubsequentTrackIndex = () : number => {
+    // currentTrackIndex의 다음 곡을 재생 할 때, 해당 곡의 index로 곡 정보에 접근하는데
+    // 이때 index값이 playlist.length보다 크면 playlist의 0번 인덱스로 돌아가야 하므로 %
+    return (currentTrackIndex + 1) % playlist.length;
+  }
+
+  // 새 트랙의 인덱스를 계산하는 함수
+  const computeRandomTrackIndex = () :number => {
+    if(playlist.length === 1) return 0;
+    const index = Math.floor(Math.random() * (playlist.length -1));
+
+    // 항상 현재 재생중인 곡은 skip해야 하기 때문에 조건문 작성
+    return index < currentTrackIndex ? index : index + 1;
   }
 
   // audio 곡 정보의 초기값 설정
@@ -102,9 +123,15 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     }
   }
 
+  const toggleShuffle = () => {
+    shuffle = !shuffle;
+    // shuffle 값이 변경되면 업데이트된 shuffle을 참조할 수 있도록 하기 위해 emitCurrentPlayerState 호출
+    emitCurrentPlayerState();
+  }
+
   // Next(다음) 버튼 누르면 currentTrackIndex 업데이트 하고 그에 맞는 곡 정보 불러와서 재생
   const playNextTrack = () => {
-    const nextTrackIndex = currentTrackIndex + 1;
+    const nextTrackIndex = computeNextTrackIndex();
     loadTrack(nextTrackIndex);
     audioElement.play();
   }
@@ -121,9 +148,10 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   return {
     toggleRepeat,
     togglePlayPause,
+    toggleShuffle,
     playNextTrack,
     playPrevTrack,
-    cleanup
+    cleanup,
   };
 }
 

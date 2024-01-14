@@ -3,6 +3,7 @@ import pauseButtonIcon from '../../../public/assets/icons/ic_pause.svg'
 import nextButtonIcon from '../../../public/assets/icons/ic_next.svg'
 import prevButtonIcon from '../../../public/assets/icons/ic_prev.svg'
 import shuffleButtonIcon from '../../../public/assets/icons/ic_shuffle.svg'
+import shuffleButtonDisabledIcon from '../../../public/assets/icons/ic_shuffle_disabled.svg'
 import repeatButtonIcon from '../../../public/assets/icons/ic_repeat.svg'
 import repeatButtonDisabledIcon from '../../../public/assets/icons/ic_repeat_disabled.svg'
 
@@ -12,21 +13,19 @@ type Props = {
   onPrevClick: () => void;
   onNextClick: () => void;
   onRepeatClick: () => void;
+  onShuffleClick: () => void;
   isPlaying : boolean;
-  repeat: boolean
+  repeat: boolean;
+  shuffle: boolean;
 }
 
-const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick, onRepeatClick, repeat} : Props) => {
-
-  const onClick = () => {
-
-  }
+const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick, onRepeatClick, repeat, onShuffleClick, shuffle} : Props) => {
 
   return (
     <div className="flex border-r border-light-4 pr-4">
       <ImageButton 
-        src={shuffleButtonIcon} 
-        onClick={onClick}
+        src={shuffle ? shuffleButtonIcon : shuffleButtonDisabledIcon} 
+        onClick={onShuffleClick}
       />
       <ImageButton 
         src={prevButtonIcon} 

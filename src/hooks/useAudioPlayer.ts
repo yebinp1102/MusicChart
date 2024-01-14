@@ -34,6 +34,10 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
     playerRef.current?.togglePlayPause();
   }
 
+  const toggleShuffle = () => {
+    playerRef.current?.toggleShuffle();
+  }
+
   const playNextTrack = () => {
     playerRef.current?.playNextTrack();
   }
@@ -56,6 +60,7 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
     playNextTrack,
     playPrevTrack,
     cleanup,
-    toggleRepeat
+    toggleRepeat,
+    toggleShuffle
   }
 }
