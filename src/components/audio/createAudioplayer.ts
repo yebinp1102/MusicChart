@@ -19,9 +19,30 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   let shuffle = false;
 
   /* === play state === */
+  // #region
   const emitCurrentPlayerState = () => {
     const state = computeCurrentPlayerState();
     onStateChange(state);
+  }
+
+  const computeCurrentPlayerState = () : PlayerState => {
+    return {
+      currentTrackDuration: getCurrentTrackDuration(),
+      currentTrackPlaybackPosition: getCurrentTrackPlaybackPosition(),
+      playbackState: getPlayBackState(),
+      repeat,
+      shuffle,
+    }
+  }
+
+  const getCurrentTrackDuration = () : number | null => {
+    // 처음 페이지를 렌더링했을 때, audioElement는 null이기 때문에 duration 값도 없다.
+    return isNaN(audioElement.duration) ? null : audioElement.duration;
+  }
+
+  const getCurrentTrackPlaybackPosition = () : number | null => {
+    // 처음 페이지를 렌더링했을 때, audioElement는 null이기 때문에 currentTime 값도 없다.
+    return isNaN(audioElement.currentTime) ? null : audioElement.currentTime;
   }
 
   // 현재 audio player의 state를 fetch하는 함수
@@ -29,27 +50,27 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     // 현재 audio가 재생 중인 상태면 playing, 아니면 paused 문자열 반환
     return audioElement.paused ? 'PAUSED' : 'PLAYING';
   }
-  const computeCurrentPlayerState = () : PlayerState => {
-    return {
-      playbackState: getPlayBackState(),
-      repeat,
-      shuffle,
-    }
-  }
+
+  // #endregion
 
   /* === Event Listener === */
+  // #region
+  
   // audio player를 재생하거나 멈출 때마다 emitCurrentPlayerState함수 호출해서 state 변경
   const setupAudioElementListeners = () => {
     audioElement.addEventListener('playing', emitCurrentPlayerState);
     audioElement.addEventListener('pause', emitCurrentPlayerState);
     audioElement.addEventListener('ended', onCurrentTrackEnded);
-
+    audioElement.addEventListener('timeupdate', emitCurrentPlayerState);
+    audioElement.addEventListener("loadeddata", emitCurrentPlayerState);
   }
 
   const removeAudioElementListeners = () => {
     audioElement.removeEventListener('playing', emitCurrentPlayerState);
     audioElement.removeEventListener('pause', emitCurrentPlayerState);
     audioElement.removeEventListener('ended', onCurrentTrackEnded);
+    audioElement.removeEventListener('timeupdate', emitCurrentPlayerState);
+    audioElement.removeEventListener("loadeddata", emitCurrentPlayerState);
   }
 
   // 현재 트랙의 곡이 끝나면 호출될 함수
@@ -62,6 +83,12 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
       playNextTrack();
     }
   }
+
+  // #endregion
+
+
+  /* === Track handling === */
+  // #region
 
   // repeat 모드가 활성화 된 상태에서 현재 트랙의 곡이 끝나면 트랙을 다시 재생하기 위해 호출되는 함수
   const replayCurrentTrack = () => {
@@ -95,6 +122,12 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     return index < currentTrackIndex ? index : index + 1;
   }
 
+  // #endregion
+
+
+  /* === init & clean up === */
+  // #region
+
   // audio 곡 정보의 초기값 설정
   const init = () => {
     setupAudioElementListeners();
@@ -104,6 +137,17 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const cleanup = () => {
     removeAudioElementListeners();
     audioElement.pause();
+  }
+
+  // #endregion
+
+
+    /* === Controls === */
+  // #region
+
+  const setPlaybackPosition = (position: number) => {
+    if(isNaN(position)) return;
+    audioElement.currentTime = position;
   }
 
   const toggleRepeat = () => {
@@ -143,9 +187,12 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     audioElement.play();
   }
 
+  // #endregion
+
   init();
 
   return {
+    setPlaybackPosition,
     toggleRepeat,
     togglePlayPause,
     toggleShuffle,

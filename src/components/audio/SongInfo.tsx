@@ -1,7 +1,8 @@
 import coverArt from '../../../public/assets/images/cover-art01.jpg'
-import ProgressBar from './ProgressBar'
+import ProgressBar from './ProgressBar';
 
 const SongInfo = () => {
+
   return (
     <div className="flex items-center overflow-hidden pl-4 flex-1">
       {/* img */}
@@ -22,4 +23,4 @@ const SongInfo = () => {
   )
 }
 
-export default SongInfo
+export default SongInfo;

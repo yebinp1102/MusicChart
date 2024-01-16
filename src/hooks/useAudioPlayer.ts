@@ -27,6 +27,10 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
     
   }, [playlist])
 
+  const setPlaybackPosition = (position: number) => {
+    playerRef.current?.setPlaybackPosition(position)
+  }
+
 
   // playerRef는 함수이거나 null일수도 있기 때문에 null인 경우는 함수를 호출해도 변화 없도록 설계
   const togglePlayPause = () => {
@@ -55,6 +59,7 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
   }
 
   return {
+    setPlaybackPosition,
     playerState,
     togglePlayPause,
     playNextTrack,
