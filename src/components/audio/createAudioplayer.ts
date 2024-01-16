@@ -1,4 +1,4 @@
-import { Controls, PlaybackState, PlayerState, Playlist } from "@/types";
+import { Controls, PlaybackState, PlayerState, Playlist, TrackMetadata } from "@/types";
 
 // onStateChange: audio state가 played -> paused 되거나 paused -> played가 될 때마다 함수를 호출하고, 
 // 새로운 play state를 argument로 전달받음
@@ -28,6 +28,7 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
     return {
       currentTrackDuration: getCurrentTrackDuration(),
       currentTrackPlaybackPosition: getCurrentTrackPlaybackPosition(),
+      currentTrackMetadata: getCurrentTrackMetadata(),
       playbackState: getPlayBackState(),
       repeat,
       shuffle,
@@ -42,6 +43,14 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   const getCurrentTrackPlaybackPosition = () : number | null => {
     // 처음 페이지를 렌더링했을 때, audioElement는 null이기 때문에 currentTime 값도 없다.
     return isNaN(audioElement.currentTime) ? null : audioElement.currentTime;
+  }
+
+  const getCurrentTrackMetadata = ():TrackMetadata | null => {
+    if(currentTrackIndex < playlist.length){
+      return playlist[currentTrackIndex].metadata;
+    }else{
+      return null;
+    }
   }
 
   // 현재 audio player의 state를 fetch하는 함수
