@@ -13,10 +13,9 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
   // 현재 재생중인 곡의 index
   let currentTrackIndex = 0;
   const audioElement : HTMLAudioElement = new Audio();
-
-  // repeat mode가 활성화 되어있는지 아닌지 나타냄
-  let repeat = false;
-  let shuffle = false;
+  let repeat = false; // repeat mode가 활성화 되어있는지 아닌지 나타냄
+  let shuffle = false; // shuffle mode가 활성화 되어있는지 아닌지 나타냄
+  const playbackHistory: Array<number> = []; // 배열은 이전에 재생된 곡의 인덱스를 담고 있음.
 
   /* === play state === */
   // #region
@@ -175,6 +174,7 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
 
   // Next(다음) 버튼 누르면 currentTrackIndex 업데이트 하고 그에 맞는 곡 정보 불러와서 재생
   const playNextTrack = () => {
+    playbackHistory.push(currentTrackIndex); // 완곡하면 기록에 해당 곡 인덱스 번호 push
     const nextTrackIndex = computeNextTrackIndex();
     loadTrack(nextTrackIndex);
     audioElement.play();
@@ -182,9 +182,18 @@ export const createAudioPlayer = ({playlist, onStateChange}: Props): Controls =>
 
   // Prev(이전) 버튼 누르면 currentTrackIndex 업데이트 하고 그에 맞는 곡 정보 불러와서 재생
   const playPrevTrack = () => {
-    const nextTrackIndex = currentTrackIndex - 1;
-    loadTrack(nextTrackIndex);
-    audioElement.play();
+    if(playbackHistory.length === 0 || audioElement.currentTime > 5){
+      replayCurrentTrack();
+    }else{
+      const previousTrackIndex = playbackHistory.pop();
+      loadTrack(previousTrackIndex!);
+      audioElement.play();
+    }
+
+
+    // const nextTrackIndex = currentTrackIndex - 1;
+    // loadTrack(nextTrackIndex);
+    // audioElement.play();
   }
 
   // #endregion
