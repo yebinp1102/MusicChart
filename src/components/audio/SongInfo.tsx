@@ -1,10 +1,14 @@
-import useAudioPlayer from '@/hooks/useAudioPlayer';
 import ProgressBar from './ProgressBar';
-import playlist from './playlist';
+import { TrackMetadata } from '@/types';
 
-const SongInfo = () => {
-  const {playerState} = useAudioPlayer(playlist);
-  const {currentTrackMetadata} = playerState;
+type Props = {
+  currentTrackDuration: number | null;
+  currentTrackPlaybackPosition: number | null;
+  setPlaybackPosition: (position: number) => void;
+  currentTrackMetadata: TrackMetadata | null;
+}
+
+const SongInfo = ({currentTrackDuration, currentTrackPlaybackPosition, setPlaybackPosition, currentTrackMetadata} : Props) => {
 
   return (
     <div className="flex items-center overflow-hidden pl-4 flex-1">
@@ -20,7 +24,7 @@ const SongInfo = () => {
           <p className='text-[0.9rem]'>{currentTrackMetadata?.title}</p>
           <p className="text-[0.75rem] text-light-3">{currentTrackMetadata?.singer}</p>
         </div>
-        <ProgressBar />
+        <ProgressBar setPlaybackPosition={setPlaybackPosition} currentTrackDuration={currentTrackDuration} currentTrackPlaybackPosition={currentTrackPlaybackPosition} />
       </div>
     </div>
   )

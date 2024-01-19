@@ -1,11 +1,11 @@
-import useAudioPlayer from "@/hooks/useAudioPlayer";
-import playlist from "./playlist";
 
+type Props = {
+  currentTrackDuration: number | null;
+  currentTrackPlaybackPosition: number | null;
+  setPlaybackPosition: (position: number) => void;
+}
 
-const ProgressBar = () => {
-  const {playerState, setPlaybackPosition} = useAudioPlayer(playlist);
-  const {currentTrackDuration, currentTrackPlaybackPosition} = playerState;
-  console.log('currentTrackPlaybackPosition:',currentTrackPlaybackPosition);
+const ProgressBar = ({currentTrackDuration, currentTrackPlaybackPosition, setPlaybackPosition} : Props) => {
 
   const setProgress = (value: number) => {
     // event 발생할 때 playback position chage
