@@ -23,24 +23,33 @@ const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick, onRepeatCli
 
   return (
     <div className="flex border-r border-light-4 pr-4">
+      {/* shuffle btn */}
       <ImageButton 
         src={shuffle ? shuffleButtonIcon : shuffleButtonDisabledIcon} 
         onClick={onShuffleClick}
       />
+
+      {/* skip to prev btn  */}
       <ImageButton 
         src={prevButtonIcon} 
         onClick={onPrevClick}
       />
+
+      {/* play & pause btn */}
       <ImageButton 
         src={isPlaying ? pauseButtonIcon : playButtonIcon} 
         onClick={onPlayClick}
         className='mx-2'
         buttonSize={32}
       />
+
+      {/* skip to next btn */}
       <ImageButton 
         src={nextButtonIcon} 
         onClick={onNextClick}
       />
+
+      {/* repeat btn */}
       <ImageButton 
         src={repeat ? repeatButtonIcon : repeatButtonDisabledIcon} 
         onClick={onRepeatClick}
@@ -52,12 +61,13 @@ const Controls = ({onPlayClick, isPlaying, onPrevClick, onNextClick, onRepeatCli
 export default Controls
 
 type ImageButtonProps = {
-  src: string; // img button에 사용할 icon
+  src: string; // img button에 사용할 icon의 위치
   onClick: () => void;
   className?: string;
   buttonSize?: number;
 }
 
+// Control의 각 Button UI를 반환하는 함수. ex) play, pause, repeat button ... 
 const ImageButton = ({src, onClick, className, buttonSize= 40} :ImageButtonProps) => {
   return (
     <button onClick={onClick}>
@@ -65,8 +75,7 @@ const ImageButton = ({src, onClick, className, buttonSize= 40} :ImageButtonProps
         src={src}
         width={buttonSize}
         height={buttonSize}
-        // className ?? '' 는 className ? className : ''과 같은 표현
-        className={`drop-shadow-lg ${className ?? ''}`}
+        className={className ?? ''} // className ?? '' 는 className ? className : ''과 같은 표현
       />
     </button>
   )

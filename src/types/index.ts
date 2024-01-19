@@ -1,3 +1,6 @@
+
+/* === User type === */
+// #region
 export type NewUserType = {
   name: string;
   email: string;
@@ -12,12 +15,18 @@ export type UserType = {
   isAdmin: boolean;
 }
 
+// #endregion
+
+
 
 export type NavLinkType = {
   imgUrl: string;
   route: string;
   label: string;
 }
+
+/* === User type === */
+// #region
 
 export type NewSongType = {
   singer: string;
@@ -36,8 +45,12 @@ export type UpdateSongType = {
   tags?: string;
 }
 
+// #endregion
 
-// playlist & track
+
+/* === playlist, track types === */
+// #region
+
 export type Playlist = Array<Track>;
 
 export type Track = {
@@ -51,7 +64,11 @@ export type TrackMetadata = {
   coverArtSrc: string;
 }
 
-// audio controls
+// #endregion
+
+
+/* === audio controls === */
+// #region
 export type Controls = {
   setPlaybackPosition: (position: number) => void; // position은 progress 바의 헤드가 시작점에서 떨어진 거리(몇퍼)
   togglePlayPause: () => void;
@@ -62,10 +79,13 @@ export type Controls = {
   toggleRepeat: () => void;
 };
 
-// audio player state
+// #endregion
+
+/* === audio state === */
+// #region
 export type PlayerState = {
   currentTrackDuration : number | null;
-  currentTrackPlaybackPosition: number | null; // 매초마다 progress bar의 헤드가 가리키는 위치 값, 즉 몇퍼인지
+  currentTrackPlaybackPosition: number | null; // 매초마다 progress bar의 헤드가 있어야 할 위치 
   currentTrackMetadata: TrackMetadata | null;
   playbackState: PlaybackState;
   repeat: boolean; // repeat mode 중이면 true, 아니면 false
@@ -74,11 +94,14 @@ export type PlayerState = {
 
 export type PlaybackState = 'PLAYING' | 'PAUSED';
 
+// PlayerState의 초기 값
 export const InitialPlayerState: PlayerState = {
   currentTrackDuration: null,
   currentTrackPlaybackPosition: null,
   currentTrackMetadata: null,
-  playbackState: 'PAUSED', // 사용자가 브라우저 열었을 때는 audio player state를 puased로 디폴트
+  playbackState: 'PAUSED', // 사용자가 브라우저 열었을 때는 곡을 재생하지 않는 것을 디폴트
   repeat: false,
   shuffle: false,
 }
+
+// #endregion

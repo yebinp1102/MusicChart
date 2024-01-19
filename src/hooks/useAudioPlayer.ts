@@ -8,23 +8,22 @@ interface AudioPlayer extends Controls {
 
 // useAudioPlayer hook은 playerState와 playerRef를 저장
 export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
+
+  // playerState : 현재 오디오의 기능관련 상태들과 트랙의 "상태" 정보 제공
   const [playerState, setPlayerState] = useState<PlayerState>(InitialPlayerState);
 
-  // playerRef : 조건에 따라 곡을 재생/멈춤하거나, 이전or다음 곡 재생 기능을 하는 함수를 반환
+  // playerRef : 오디오의 다양한 기능을 조작하는 "함수"를 저장하는 곳. useRef를 사용하면 리렌더링되도 함수를 유지해줌.
   const playerRef = useRef<Controls | null>(null);
 
-  // useEffect로 인해 playlist가 변경될 때마다 playerRef 업데이트 됨.
+  // playlist가 변경될 때마다 업데이트된 player의 state를 playerRef에 반영함.
   useEffect(() => {
-    const newPlayer = createAudioPlayer({playlist, onStateChange:setPlayerState})
+    const newPlayer = createAudioPlayer(playlist, setPlayerState)
     playerRef.current = newPlayer;
 
-    // clean up : useEffect가 cleaned up될 때 audio player를 파괴함
+    // 컴포넌트가 unmount 되거나 dependency가 변경 되면 audio player를 정리(clean up)
     return () => {
-      // audio player를 clean up
       newPlayer.cleanup();
-
     }
-    
   }, [playlist])
 
   const setPlaybackPosition = (position: number) => {
@@ -32,14 +31,20 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
   }
 
 
-  // playerRef는 함수이거나 null일수도 있기 때문에 null인 경우는 함수를 호출해도 변화 없도록 설계
+  /* ==== prevent null Error === */
+  // #region
+  // playerRef는 함수이거나 null 일수도 있다. null인 경우 함수를 호출하면 에러가 발생하기 때문에 이를 사전에 방지하기 위해 함수 작성
+ 
   const togglePlayPause = () => {
-    // playerRef가 null인 경우 아무것도 실행되지 X
     playerRef.current?.togglePlayPause();
   }
 
   const toggleShuffle = () => {
     playerRef.current?.toggleShuffle();
+  }
+
+  const toggleRepeat = () => {
+    playerRef.current?.toggleRepeat();
   }
 
   const playNextTrack = () => {
@@ -54,9 +59,7 @@ export default function useAudioPlayer(playlist: Playlist) : AudioPlayer {
     playerRef.current?.cleanup();
   }
 
-  const toggleRepeat = () => {
-    playerRef.current?.toggleRepeat();
-  }
+  // #endregion
 
   return {
     setPlaybackPosition,
