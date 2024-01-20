@@ -1,5 +1,6 @@
 import { Models } from 'appwrite'
 import { Button } from '../ui/button';
+import { Link } from 'react-router-dom';
 
 type Props = {
   song: Models.Document;
@@ -7,16 +8,17 @@ type Props = {
 
 const SongList = ({song}: Props) => {
 
-  console.log(song);
-
   return (
-    <div className='w-full border-[0.5px] h-[100px] py-[10px] px-6 flex'>
+    <div className='w-full border-[0.5px] bg-dark-3 border-light-4 rounded-[10px] mb-2 h-[100px] py-[10px] px-6 flex'>
       {/* img */}
-      <img 
-        src={song.imageUrl}
-        className='w-[79px] h-[79px] object-cover'
-        alt='song_cover_img'
-      />
+      <Link to={`/song/detail/${song.$id}`}>
+        <img 
+          src={song.imageUrl}
+          className='w-[79px] h-[79px] object-cover'
+          alt='song_cover_img'
+        />
+      </Link>
+
 
       <div className='flex justify-between flex-1'>
         {/* title, singer */}

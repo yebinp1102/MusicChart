@@ -14,7 +14,7 @@ const RootLayout = () => {
       <LeftSideBar />
 
 
-      <section className="flex flex-col w-full flex-1 overflow-x-hidden">
+      <section className="flex flex-col w-full h-100vh flex-1 overflow-x-hidden">
         <Outlet />
         <AudioPlayer />
       </section>

@@ -11,11 +11,11 @@ const Search = () => {
   const {data: searchSongs, isFetching: isSearchFeteching} = useSearchSongs(debouncedSearch);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex-full-screen">
 
       {/* Top - Search bar */}
-      <div className="w-full gradient-primary h-[400px] relative">
-        <div className="absolute w-full h-full bg-black opacity-60"></div>
+      <div className="gradient-primary-full relative">
+        <div className="bg-black-opacity"></div>
         <div className="max-w-6xl mx-auto relative px-[2rem]">
           <div className="w-full h-[400px] flex justify-center flex-col">
             <h1 className="text-white text-[2rem] mb-10">찾는 곡이 있으신가요?</h1>

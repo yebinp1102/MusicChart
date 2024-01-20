@@ -8,7 +8,7 @@ const AudioPlayer = () => {
   const {repeat, playbackState, shuffle, currentTrackDuration, currentTrackPlaybackPosition, currentTrackMetadata} = playerState;
 
   return (
-    <div className="w-full z-[100] h-[90px] border-t px-10 py-2 border-primary-500">
+    <div className="w-full z-[100] h-[90px] absolute bottom-0 border-t px-10 py-2 border-primary-500">
       <div className="max-w-4xl mx-auto h-full flex">
         <Controls 
           repeat={repeat}
