@@ -351,3 +351,19 @@ export const searchSongs = async (searchTerm:string) => {
     console.log(err);
   }
 }
+
+
+// 유저의 플레이리스트 목록 fetch
+export const getMyPlaylist = async (userId: string) => {
+  try{
+    const playlist = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.playlistCollectionId,
+      [Query.equal("user", userId)]
+    )
+    if(!playlist) throw Error;
+    return playlist;
+  }catch(err){
+    console.log(err);
+  }
+}
