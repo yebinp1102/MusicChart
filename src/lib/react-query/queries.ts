@@ -1,6 +1,6 @@
 import { NewSongType, NewUserType, UpdateSongType } from '@/types';
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getRecentSongs, getSongDetail, likeSong, searchSongs } from '../appwrite/api';
+import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getMyPlaylist, getRecentSongs, getSongDetail, likeSong, searchSongs } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -124,6 +124,9 @@ export const useDeleteAddedSong = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_CURRENT_USER],
       });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MY_PLAYLIST]
+      })
     }
   })
 }
@@ -157,5 +160,12 @@ export const useSearchSongs = (searchTerm: string) => {
     queryKey: [QUERY_KEYS.SEARCH_SONGS, searchTerm], 
     queryFn: () => searchSongs(searchTerm),
     enabled: !!searchTerm
+  })
+}
+
+export const useGetMyPlaylist = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MY_PLAYLIST],
+    queryFn: () => getMyPlaylist(userId),
   })
 }

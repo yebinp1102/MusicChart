@@ -1,21 +1,23 @@
 import Loader from "@/components/shared/Loader"
 import SearchInput from "@/components/shared/SearchInput"
 import SongList from "@/components/shared/SongList"
+import { useUserContext } from "@/context/AuthContext"
 import useDebounce from "@/hooks/useDebounce"
 import { useSearchSongs } from "@/lib/react-query/queries"
 import { useState } from "react"
 
 const Search = () => {
+  const {user} = useUserContext();
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
   const {data: searchSongs, isFetching: isSearchFeteching} = useSearchSongs(debouncedSearch);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="flex-full-screen">
 
       {/* Top - Search bar */}
-      <div className="w-full gradient-primary h-[400px] relative">
-        <div className="absolute w-full h-full bg-black opacity-60"></div>
+      <div className="gradient-primary-full relative">
+        <div className="bg-black-opacity"></div>
         <div className="max-w-6xl mx-auto relative px-[2rem]">
           <div className="w-full h-[400px] flex justify-center flex-col">
             <h1 className="text-white text-[2rem] mb-10">찾는 곡이 있으신가요?</h1>
@@ -42,7 +44,7 @@ const Search = () => {
             <div className="flex flex-col h-full justify-between px-[1.5rem]">
               <div className="flex flex-col">
                 {searchSongs?.documents.map((song) => (
-                  <SongList song={song} key={song.$id} />
+                  <SongList song={song} key={song.$id} userId={user?.id} />
                 ))}
               </div>
               <div className="w-full pb-6 flex items-center justify-center gap-8">

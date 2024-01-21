@@ -4,5 +4,6 @@ export enum QUERY_KEYS {
   GET_SONGS = 'getSongs',
   GET_CURRENT_USER = 'getCurrentUser',
   GET_INFINITE_SONGS = 'getInfiniteSongs',
-  SEARCH_SONGS = 'searchSongs'
+  SEARCH_SONGS = 'searchSongs',
+  GET_MY_PLAYLIST = 'getMyPlaylist'
 }

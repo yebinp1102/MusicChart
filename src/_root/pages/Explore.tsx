@@ -1,6 +1,5 @@
 import GridSongList from "@/components/shared/GridSongList";
 import Loader from "@/components/shared/Loader";
-import SearchInput from "@/components/shared/SearchInput";
 import { Button } from "@/components/ui/button";
 import { useGetSongs } from "@/lib/react-query/queries"
 
@@ -28,7 +27,7 @@ const Explore = () => {
             className="w-full object-cover h-full object-top" 
           />
           <div className="absolute top-0 left-0 bg-black w-full h-full opacity-60"></div>
-         
+        
           <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-end gap-4 p-10">
 
             <div className="flex justify-between items-center">

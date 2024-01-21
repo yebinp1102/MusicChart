@@ -68,9 +68,9 @@ const SongDetail = () => {
 
               {/* button */}
               <div className="flex flex-col lg:mt-12 mt-10">
-                <Likes song={song} userId={user.id} />
+                <Likes song={song} userId={user.id} page={"detail"} />
                 <div className="flex gap-3 mt-5 items-center">
-                  <Button className="shad-button_primary flex items-center lg:py-3 py-2 lg:px-10 px-8">
+                  <Button className="shad-button_primary_outline flex items-center lg:py-3 py-2 lg:px-10 px-8">
                     <p className="pb-0.5 font-thin">재생</p>
                     <img
                       src="/assets/icons/play-btn.svg"
@@ -78,7 +78,7 @@ const SongDetail = () => {
                       height={20}
                     />
                   </Button>
-                  <AddPlaylistBtn song={song} userId={user.id}/>
+                  <AddPlaylistBtn song={song} userId={user.id} page={"detail"}/>
                 </div>
               
               </div>

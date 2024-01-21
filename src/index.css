@@ -15,6 +15,11 @@
 }
 
 @layer utilities{
+
+  .flex-full-screen{
+    @apply w-full h-full flex flex-col
+  }
+
   .glass{
     background: rgba( 255, 255, 255, 0.15 );
     border-radius: 10px;
@@ -49,7 +54,7 @@
   }
 
   .leftsidebar-link {
-    @apply rounded-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
+    @apply rounded-tl-lg rounded-bl-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
   }
 
   .detail_banner_background{
@@ -85,9 +90,23 @@
     background-image: linear-gradient(90deg, #00dbe9 0%, #00adb5 100%);
   }
 
-  .gradient-primary{
+  .gradient-primary-full{
     background: rgb(0,173,181);
     background: linear-gradient(180deg, rgba(0,173,181,1) 0%, rgba(0,0,0,1) 100%);
+    width: 100%;
+    height: 400px;
+  }
+
+  .bg-black-opacity{
+    @apply bg-black absolute w-full h-full  opacity-60;
+  }
+
+  .audio_container{
+    @apply border-t lg:absolute bottom-0 px-10 py-2 border-primary-500 z-50 bg-black;
+  }
+
+  .sm-screen-width{
+    width: calc(100% - 250px);
   }
 }
 
