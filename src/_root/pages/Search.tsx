@@ -1,11 +1,13 @@
 import Loader from "@/components/shared/Loader"
 import SearchInput from "@/components/shared/SearchInput"
 import SongList from "@/components/shared/SongList"
+import { useUserContext } from "@/context/AuthContext"
 import useDebounce from "@/hooks/useDebounce"
 import { useSearchSongs } from "@/lib/react-query/queries"
 import { useState } from "react"
 
 const Search = () => {
+  const {user} = useUserContext();
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
   const {data: searchSongs, isFetching: isSearchFeteching} = useSearchSongs(debouncedSearch);
@@ -42,7 +44,7 @@ const Search = () => {
             <div className="flex flex-col h-full justify-between px-[1.5rem]">
               <div className="flex flex-col">
                 {searchSongs?.documents.map((song) => (
-                  <SongList song={song} key={song.$id} />
+                  <SongList song={song} key={song.$id} userId={user?.id} />
                 ))}
               </div>
               <div className="w-full pb-6 flex items-center justify-center gap-8">

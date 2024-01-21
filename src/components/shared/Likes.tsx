@@ -5,9 +5,10 @@ import React, { useState } from 'react'
 type Props = {
   song: Models.Document,
   userId: string,
+  page?: string,
 }
 
-const Likes = ({song, userId}: Props) => {
+const Likes = ({song, userId, page}: Props) => {
   const likesList = song.likes.map((user: Models.Document) => user.$id);
   const [likes, setLikes] = useState<string[]>(likesList);
   const {mutate: likeSong} = useLikeSong();
@@ -32,15 +33,18 @@ const Likes = ({song, userId}: Props) => {
   }
 
   return (
-    <div className='pl-2 flex items-center hover:cursor-pointer'>
+    <div className='pl-2 flex items-center'>
       <img 
         src={`${checkIsLiked() ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}` }
         alt="like"
         width={24}
         height={24}
         onClick={(e) => handleLikeSong(e)}
+        className='cursor-pointer'
       />
-      <p className='text-light-3 ml-2'>{likes.length} 명이 이 곡을 좋아합니다.</p>
+      {page === "detail" && 
+        <p className='text-light-3 ml-2'>{likes.length} 명이 이 곡을 좋아합니다.</p>
+      }
     </div>
   )
 }

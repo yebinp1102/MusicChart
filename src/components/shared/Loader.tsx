@@ -1,13 +1,12 @@
 
 const Loader = () => {
   return (
-    <div className="w-full">
+    <div>
       <img 
         src="/assets/icons/loader.svg"
         alt="loader"
-        width={24}
-        height={24}
-        className=""
+        width={40}
+        height={40}
       />
     </div>
   )

@@ -8,9 +8,10 @@ import { useToast } from '../ui/use-toast';
 type Props = {
   song : Models.Document,
   userId: string,
+  page: string,
 }
 
-const AddPlaylistBtn = ({song, userId} : Props) => {
+const AddPlaylistBtn = ({song, userId, page} : Props) => {
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const {data: currentUser} = useGetCurrentUser();
   const {mutate: addSongToPlaylist, isPending: isAddingSongToPlaylist} = useAddToPlaylist();
@@ -41,18 +42,33 @@ const AddPlaylistBtn = ({song, userId} : Props) => {
 
   return (
     <Button
-      variant="outline"
-      className="shad-button_primary_outline lg:py-4 lg:px-6 py-3 px-5 font-thin"
+      variant={page==='detail' ? "outline" : "default"}
+      className={`${page === 'detail' ? "shad-button_primary_outline lg:py-4 lg:px-6 py-3 px-5 font-thin" : "p-0"}`}
       onClick={(e) => handleAddPlaylist(e)}
     >
-      {isAddingSongToPlaylist || isDeletingSongFormPlaylist ? <Loader /> : (
-          <img 
-            src={`${addedSongRecord ? "/assets/icons/excludeList.svg" : "/assets/icons/addList.svg"}`}
-            width={20}
-            height={20}
-          />
+      {page === 'detail' ? (
+        <>
+          {isAddingSongToPlaylist || isDeletingSongFormPlaylist ? <Loader /> : (
+              <img 
+                src={`${addedSongRecord ? "/assets/icons/excludeList.svg" : "/assets/icons/addList.svg"}`}
+                width={20}
+                height={20}
+              />
+          )}
+          <p>{isAdded ? "플레이리스트에서 빼기" : "플레이리스트에 추가"}</p> 
+        </>
+      ): (
+        <>
+          {isAddingSongToPlaylist || isDeletingSongFormPlaylist ? <Loader /> : (
+            <img 
+              src="/assets/icons/close.svg"
+              width={20}
+              height={20}
+            />
+            )}
+        </>
       )}
-      <p>{isAdded ? "플레이리스트에서 빼기" : "플레이리스트에 추가"}</p> 
+
   </Button>
   )
 }

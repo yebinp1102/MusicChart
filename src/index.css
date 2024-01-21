@@ -54,7 +54,7 @@
   }
 
   .leftsidebar-link {
-    @apply rounded-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
+    @apply rounded-tl-lg rounded-bl-lg hover:bg-primary-500 transition text-[16px] font-medium leading-[140%]
   }
 
   .detail_banner_background{
@@ -99,6 +99,14 @@
 
   .bg-black-opacity{
     @apply bg-black absolute w-full h-full  opacity-60;
+  }
+
+  .audio_container{
+    @apply border-t lg:absolute bottom-0 px-10 py-2 border-primary-500 z-50 bg-black;
+  }
+
+  .sm-screen-width{
+    width: calc(100% - 250px);
   }
 }
 
