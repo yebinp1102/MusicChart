@@ -31,7 +31,8 @@ export type NavLinkType = {
 export type NewSongType = {
   singer: string;
   title: string;
-  file: File[];
+  Imgfile: File[];
+  audioFile: File[];
   tags?: string;
 }
 
@@ -41,8 +42,9 @@ export type UpdateSongType = {
   imageUrl: URL;
   singer: string;
   title: string;
-  file: File[];
+  Imgfile: File[];
   tags?: string;
+  audioFile: File[];
 }
 
 // #endregion

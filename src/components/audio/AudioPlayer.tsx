@@ -3,7 +3,10 @@ import Controls from "./Controls"
 import useAudioPlayer from "@/hooks/useAudioPlayer"
 import playlist from "./playlist"
 
+
 const AudioPlayer = () => {
+
+
   const {playerState, playNextTrack, playPrevTrack, togglePlayPause, toggleRepeat, toggleShuffle, setPlaybackPosition} = useAudioPlayer(playlist);
   const {repeat, playbackState, shuffle, currentTrackDuration, currentTrackPlaybackPosition, currentTrackMetadata} = playerState;
 

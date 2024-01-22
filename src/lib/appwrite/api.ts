@@ -93,15 +93,25 @@ export const createSong = async (song : NewSongType) => {
   try{
 
     // appwrite storage에 이미지 업로드
-    const uploadedFile = await uploadFile(song.file[0]);
+    const uploadedImgFile = await uploadFile(song.Imgfile[0]);
+    if(!uploadedImgFile) throw Error;
 
-    if(!uploadedFile) throw Error;
+    // storage에 오디오 파일 업로드
+    const uploadedAudioFile = await uploadFile(song.audioFile[0]);
+    if(!uploadedAudioFile) throw Error;
 
     // storage에 이미지를 저장하면서 생성한 고유 id값을 통해 저장된 이미지의 url을 참조
     // 이 url은 DB에 이미지를 저장할 때 필요함
-    const fileUrl = getFilePreview(uploadedFile.$id);
-    if(!fileUrl){
-      await deleteFile(uploadedFile.$id);
+    const imgFileUrl = getFilePreview(uploadedImgFile.$id);
+    if(!imgFileUrl){
+      await deleteFile(uploadedImgFile.$id);
+      throw Error;
+    }
+
+    // 이미지와 같은 방식으로 오디오의 url 참조
+    const audioFileUrl = getFilePreview(uploadedAudioFile.$id);
+    if(!audioFileUrl){
+      await deleteFile(uploadedAudioFile.$id);
       throw Error;
     }
 
@@ -116,14 +126,17 @@ export const createSong = async (song : NewSongType) => {
       {
         title: song.title,
         singer: song.singer,
-        imageUrl: fileUrl,
-        imageId: uploadedFile.$id,
+        imageUrl: imgFileUrl,
+        imageId: uploadedImgFile.$id,
         tags,
+        audioId: uploadedAudioFile.$id,
+        audioUrl: audioFileUrl,
       }
     )
 
     if(!newSong){
-      await deleteFile(uploadedFile.$id);
+      await deleteFile(uploadedImgFile.$id);
+      await deleteFile(uploadedAudioFile.$id);
       throw Error;
     }
 
@@ -134,7 +147,7 @@ export const createSong = async (song : NewSongType) => {
 }
 
 export const editSong = async (song: UpdateSongType) => {
-  const hasFileToEdit = song.file.length > 0;
+  const hasFileToEdit = song.Imgfile.length > 0;
   try{
     let image = {
       imageUrl: song.imageUrl,
@@ -143,7 +156,7 @@ export const editSong = async (song: UpdateSongType) => {
 
     // upload new image to appwrite storage
     if(hasFileToEdit){
-      const uploadedFile = await uploadFile(song.file[0]);
+      const uploadedFile = await uploadFile(song.Imgfile[0]);
       if(!uploadedFile) throw Error;
 
       // get new image url from appwrite
