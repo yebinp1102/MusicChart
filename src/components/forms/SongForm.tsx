@@ -10,6 +10,7 @@ import { useToast } from "../ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import Loader from "../shared/Loader";
 import { Button } from "../ui/button";
+import AudioFileUploader from "../shared/AudioFileUploader";
 
 type Props = {
   action: "Create" | "Edit",
@@ -19,8 +20,9 @@ type Props = {
 const formValidation = z.object({
   singer: z.string().min(1, { message: "가수명을 추가해주세요." }),
   title: z.string().min(1, { message: "곡명을 추가해주세요." }),
-  file: z.custom<File[]>(),
-  tags: z.string()
+  Imgfile: z.custom<File[]>(),
+  tags: z.string(),
+  audioFile: z.custom<File[]>(),
 })
 
 const SongForm = ({action, song} : Props) => {
@@ -34,8 +36,9 @@ const SongForm = ({action, song} : Props) => {
     defaultValues: {
       singer: song ? song?.singer : "",
       title: song ? song?.title : "",
-      file: [],
+      Imgfile: [],
       tags: song ? song.tags.join(",") : "",
+      audioFile: [],
     }
   })
 
@@ -48,6 +51,7 @@ const SongForm = ({action, song} : Props) => {
         songId: song.$id,
         imageId: song.imageId,
         imageUrl: song.imageUrl,
+        audioFile: song.audioFile,
       })
       if(!editedSong){
         toast({title: "다시 시도해주세요."})
@@ -69,7 +73,7 @@ const SongForm = ({action, song} : Props) => {
     <Form {...form} >
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-9 w-full  max-w-5xl"
+        className="flex flex-col gap-9 w-full max-w-5xl pb-48"
       >
         {/* singer  */}
         <FormField 
@@ -104,7 +108,7 @@ const SongForm = ({action, song} : Props) => {
         {/* image */}
         <FormField 
           control={form.control}
-          name="file"
+          name="Imgfile"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="shad-input_label">커버 이미지 업로드</FormLabel>
@@ -131,6 +135,20 @@ const SongForm = ({action, song} : Props) => {
           )}
         />
 
+        {/* image */}
+        <FormField 
+          control={form.control}
+          name="audioFile"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="shad-input_label">음원 업로드</FormLabel>
+              <FormControl>
+                <AudioFileUploader fieldChange={field.onChange} mediaUrl={song?.audioFile} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         {/* Button */}
         <div className="flex justify-end">

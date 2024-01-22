@@ -28,11 +28,6 @@ export const sidebarPrivateLinks = [
     label: "최근 재생",
   },
   {
-    imgUrl: "/assets/icons/like.svg",
-    route: "/list-liked",
-    label: "좋아요",
-  },
-  {
     imgUrl: "/assets/icons/playlist.svg",
     route: "/playlist",
     label: "플레이리스트",
@@ -56,9 +51,9 @@ export const bottomLinks = [
     label: "뮤직 차트",
   },
   {
-    imgUrl: "/assets/icons/like.svg",
-    route: "/list-liked",
-    label: "좋아요",
+    imgUrl: "/assets/icons/history.svg",
+    route: "/list-recently-played",
+    label: "최근 재생",
   },
   {
     imgUrl: "/assets/icons/playlist.svg",
