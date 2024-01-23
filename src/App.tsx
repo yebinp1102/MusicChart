@@ -26,7 +26,7 @@ const App = () => {
           <Route path='/chart' element={<Chart />} />
           <Route path='/search' element={<Search />} />
           <Route path='/playlist' element={<Playlist />} />
-          <Route path='/profile/:id/*' element={<Profile />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path='/list-recently-played' element={<RecentPlayed />} />
           <Route path='/create-post' element={<CreateSong />} />
           <Route path='/edit-song/:id' element={<EditSong />} />

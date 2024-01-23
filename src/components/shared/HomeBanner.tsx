@@ -1,12 +1,5 @@
-import { Models } from "appwrite"
-import { Button } from "../ui/button"
 
-type Props = {
-  song?: Models.Document
-
-}
-
-const HomeBanner = ({song}: Props) => {
+const HomeBanner = () => {
   return (
     <div className="absolute bg-orange-50 h-full w-full -z-10">
 

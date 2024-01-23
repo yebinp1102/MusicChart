@@ -7,12 +7,13 @@ type Props = {
   song: Models.Document;
   userId: string,
   page?: string,
+  first?: boolean
 }
 
-const SongList = ({song, userId, page}: Props) => {
+const SongList = ({song, userId, page, first}: Props) => {
 
   return (
-    <div className='w-full border-[0.5px] bg-dark-3 border-light-4 rounded-[10px] mb-2 h-[100px] py-[10px] px-6 flex'>
+    <div className={`w-full border-[0.5px] ${first ? 'bg-[#092635] border-dark-1' : 'bg-dark-3 border-light-4'} rounded-[10px] mb-2 h-[100px] py-[10px] px-6 flex`}>
       {/* img */}
       <Link to={`/song/detail/${song.$id}`}>
         <img 
