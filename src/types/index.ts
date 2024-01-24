@@ -17,13 +17,24 @@ export type UserType = {
 
 // #endregion
 
-
+/* === Link type === */
+// #region
 
 export type NavLinkType = {
   imgUrl: string;
   route: string;
   label: string;
 }
+
+export type ProfileMenuLinkType = {
+  imageUrl: string;
+  title: string;
+  description: string;
+  color: string;
+  icon: string;
+}
+
+// #endregion
 
 /* === User type === */
 // #region
