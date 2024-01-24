@@ -8,7 +8,7 @@ type Props = {
 const GridSongList = ({songs} :Props) => {
 
   return (
-    <ul className="grid-container pl-3">
+    <>
       {songs?.map((song) => (
         <li key={song.$id} className="grid-item bg-dark-4 w-[150px]">
           <Link to={`/song/detail/${song.$id}`}>
@@ -20,11 +20,8 @@ const GridSongList = ({songs} :Props) => {
           </div>
         </li>
       ))}
-      <div className="w-[150px] flex items-center justify-center gap-8">
-        <img src="public/assets/icons/arrowLeft.svg" className="border border-primary-500 rounded-[50%] cursor-pointer" width={45} />
-        <img src="public/assets/icons/arrowRight.svg" className="border border-primary-500 rounded-[50%] cursor-pointer" width={45} />
-      </div>
-    </ul>
+
+    </>
   )
 }
 

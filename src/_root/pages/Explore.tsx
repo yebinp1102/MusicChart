@@ -1,10 +1,20 @@
 import GridSongList from "@/components/shared/GridSongList";
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
-import { useGetSongs } from "@/lib/react-query/queries"
+import { useGetSongs } from "@/lib/react-query/queries";
+import { useEffect } from "react";
+import {useInView} from 'react-intersection-observer'
 
 const Explore = () => {
+  const {ref, inView} = useInView();
   const {data: songs, fetchNextPage, hasNextPage} = useGetSongs();
+  console.log('pageParams',songs?.pageParams);
+  console.log('pages', songs?.pages);
+
+  useEffect(() => {
+    if(hasNextPage) fetchNextPage();
+  },[hasNextPage])
+
 
   if(!songs){
     return (
@@ -68,13 +78,21 @@ const Explore = () => {
             {shouldShowSongs ? (
               <p className="">End of songs</p>
             ):(
-                songs.pages.map((song, idx) => (
+              <ul className="grid-container pl-3">
+                {songs.pages.map((song, idx) => (
                   <GridSongList key={`page-${idx}`} songs={song?.documents} />            
-                ))
+                ))}
+              </ul>
             )}
           </div>
         </div>
       </div>
+
+      {hasNextPage && (
+        <div ref={ref} className="">
+          <Loader />
+        </div>
+      )}
     </div>
   )
 }
