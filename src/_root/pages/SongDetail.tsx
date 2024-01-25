@@ -35,9 +35,9 @@ const SongDetail = () => {
   if (!song || isGettingDetail) return <Loader />;
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full lg:h-screen">
       {/* 상단 : 곡 정보 */}
-      <div className="w-full lg:h-[50%] relative">
+      <div className="w-full h-full lg:h-[50%] relative">
         {/* 뒷배경 그라데이션 */}
         <div className="detail_banner_background w-full h-full absolute -z-10"></div>
         <div className="w-full h-full bg-black opacity-50 absolute top-0 -z-10"></div>
@@ -101,7 +101,7 @@ const SongDetail = () => {
       </div>
 
       {/* 하단 : 유사 곡 & 가수의 다른 곡 */}
-      <div className="w-full h-[50%]">
+      <div className="w-full h-full lg:h-[50%] mb-40 pb-24">
         {/* 유사곡 */}
         <div className="flex flex-col lg:max-w-6xl lg:mx-auto h-full justify-center lg:pb-16">
           <p className="mb-10 lg:mt-0 mt-10 text-center lg:text-left text-[20px] font-bold tracking-wide px-3">
