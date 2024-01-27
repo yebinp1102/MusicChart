@@ -4,11 +4,10 @@ import { useGetRecentSongs } from "@/lib/react-query/queries";
 import { useEffect, useState, useRef } from "react"
 
 const Chart = () => {
-  // max : 1150px
   const [sliderPosition, setSliderPosition] = useState<number>(0);
   const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
   const sliderContainer = useRef<HTMLDivElement | null>(null);
-  const {data: songs, isPending: isSongLoading, isError: isErrorSongs } = useGetRecentSongs();
+  const {data: songs, isPending: isSongLoading } = useGetRecentSongs();
 
 
   useEffect(() => {
@@ -71,9 +70,9 @@ const Chart = () => {
           {songs?.documents.slice(0,3).map((song, idx) => (
             <SongInfoCard key={idx} subText={song.singer} title={song.title} coverArtScr={song.imageUrl} />
           ))}
-          <SongInfoCard bgColor='bg-gradient-to-r from-pink-500 to-orange-500' title="Recently" subText="최근 재생된 곡 총 14개" />
+          <SongInfoCard bgColor='bg-gradient-to-r from-pink-500 to-orange-500' title="Recently" subText="최근 재생된 곡 총 14개" link='/list-recently-played' />
           <SongInfoCard bgColor='bg-gradient-to-r from-blue-500 to-purple-500' title="Favorites" subText="좋아요한 곡 총 16개" />
-          <SongInfoCard bgColor='bg-gradient-to-r from-green-500 to-blue-500' title="Playlist" subText="플레이리스트에 담은 곡 총 28개" />
+          <SongInfoCard bgColor='bg-gradient-to-r from-green-500 to-blue-500' title="Playlist" subText="플레이리스트에 담은 곡 총 28개" link="/playlist" />
         </div>
 
       </div>

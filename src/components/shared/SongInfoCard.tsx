@@ -1,13 +1,16 @@
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   title?: string;
   subText?: string;
   coverArtScr?: string;
   bgColor?: string;
+  link?: string;
 }
 
 
-const SongInfoCard = ({title, subText, coverArtScr, bgColor} : Props) => {
+const SongInfoCard = ({title, subText, coverArtScr, bgColor, link} : Props) => {
+  const navigate = useNavigate();
   return (
     <div className="songInfo_container">
       {coverArtScr ? (
@@ -34,7 +37,7 @@ const SongInfoCard = ({title, subText, coverArtScr, bgColor} : Props) => {
       ): (
         <>
           <div className={`songInfo_card_bg ${bgColor}`}></div>
-          <div className="songInfo_card_box p-4">
+          <div className="songInfo_card_box p-4 cursor-pointer" onClick={() => navigate(`${link}`)}>
             <div className="opacity-50 text-sm mb-2 flex">Music Chart</div>
             <div className="h3-bold">{title}</div>
             <div className="opacity-80 leading-tight mt-1">{subText}</div>
