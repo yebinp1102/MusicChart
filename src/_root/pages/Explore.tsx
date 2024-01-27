@@ -8,8 +8,6 @@ import {useInView} from 'react-intersection-observer'
 const Explore = () => {
   const {ref, inView} = useInView();
   const {data: songs, fetchNextPage, hasNextPage} = useGetSongs();
-  console.log('pageParams',songs?.pageParams);
-  console.log('pages', songs?.pages);
 
   useEffect(() => {
     if(hasNextPage) fetchNextPage();

@@ -187,24 +187,31 @@
     @apply flex flex-col w-[200px] h-[280px] relative hover:scale-105 duration-200;
   }
 
-  .songInfo_card_img{
+  .songInfo_card_bg{
     @apply w-[200px] h-[200px] rounded-lg mb-3 object-cover;
   }
 
+  .songInfo_card_box{
+    @apply  w-[200px] h-[200px] absolute top-0 left-0 rounded-lg;
+  }
+
+
+  
   .songInfo_card_hover{
-    @apply absolute top-0 left-0 opacity-0 hover:opacity-80 w-[200px] h-[200px] hover:bg-black rounded-lg flex gap-4 justify-center items-center;
+    @apply opacity-0 hover:opacity-100 hover:bg-opacity-80 hover:bg-black flex gap-4 justify-center items-center ;
   }
 
   .songInfo_card_hover img{
     @apply w-[34px] h-[34px];
   }
 
+  /* slider 좌 & 우 버튼 */
   .slider_btn_wrap{
-    @apply absolute w-full h-full border flex justify-between items-center;
+    @apply absolute w-full h-full flex justify-between items-center;
   }
 
   .slider_btn_wrap img{
-    @apply absolute rounded-full bg-light-2 w-[46px] h-[46px];
+    @apply absolute top-[35%] rounded-full bg-light-2 w-[46px] h-[46px];
   }
 }
 
