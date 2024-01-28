@@ -213,5 +213,39 @@
   .slider_btn_wrap img{
     @apply absolute top-[35%] rounded-full bg-light-2 w-[46px] h-[46px];
   }
+
+
+
+  /* grid slider */
+  .grid_slider{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+      'a a b c c'
+      'a a d c c'
+      'e f g h i'
+    ;
+  }
+
+  .grid_item{
+    width: 100%;
+    height: 100%;
+    background-color: salmon;
+    min-height: 100px;
+    min-width: 100px;
+    border-radius: 4px;
+  }
+
+  .grid_item:nth-child(1){
+    grid-area: a;
+  }
+
+  .grid_item:nth-child(3){
+    grid-area: c;
+  }
 }
 

@@ -14,7 +14,6 @@ const LikeList = () => {
       </div>
     )
   }
-  console.log(user);
   return (
     <div className="flex relative py-4">
       <div className="w-full mb-[165px] lg:mb-[72px]">
