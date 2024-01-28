@@ -102,7 +102,7 @@
   }
 
   .bg-black-opacity{
-    @apply bg-black absolute w-full h-full  opacity-60;
+    @apply bg-black absolute w-full h-full opacity-60;
   }
 
   .audio_container{

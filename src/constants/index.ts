@@ -23,9 +23,9 @@ export const sidebarMenuLinks = [
 
 export const sidebarPrivateLinks = [
   {
-    imgUrl: "/assets/icons/history.svg",
-    route: "/list-recently-played",
-    label: "최근 재생",
+    imgUrl: "/assets/icons/like.svg",
+    route: "/like-list",
+    label: "좋아요",
   },
   {
     imgUrl: "/assets/icons/playlist.svg",
@@ -51,9 +51,9 @@ export const bottomLinks = [
     label: "뮤직 차트",
   },
   {
-    imgUrl: "/assets/icons/history.svg",
-    route: "/list-recently-played",
-    label: "최근 재생",
+    imgUrl: "/assets/icons/liked.svg",
+    route: "/like-list",
+    label: "좋아요",
   },
   {
     imgUrl: "/assets/icons/playlist.svg",
