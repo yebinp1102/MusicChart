@@ -1,6 +1,7 @@
 import Loader from "@/components/shared/Loader";
 import SliderGridContainer from "@/components/shared/SliderGridContainer";
 import SongInfoCard from "@/components/shared/SongInfoCard"
+import { contentRecommendations } from "@/constants";
 import { useGetRecentSongs } from "@/lib/react-query/queries";
 import { useEffect, useState, useRef } from "react"
 
@@ -66,8 +67,9 @@ const Chart = () => {
       </div>
             
       {/* container */}
-      <div className="max-w-6xl flex flex-col gap-8 justify-between p-5 my-2 mx-auto h-full bg-white bg-opacity-10 rounded-lg">
+      <div className="max-w-7xl flex flex-col gap-8 justify-between p-5 my-2 mx-auto h-full bg-white bg-opacity-10 rounded-lg">
 
+        {/* Today - date */}
         <div>
           <div className="w-full flex items-end gap-8 border-b border-light-3 pb-4">
             <h2 className="h2-bold">For you</h2>
@@ -76,23 +78,24 @@ const Chart = () => {
           <p className="text-light-3 mt-4">{formattedDate}</p>
         </div>
 
-        {/* top slider : grid slider */}
-        <div className="bg-white bg-opacity-5 w-full h-full p-4 rounded-lg">
-          <div className="h-full flex gap-16">
-
-            <SliderGridContainer />
-            <SliderGridContainer />
-            <SliderGridContainer />
-
+          {/* top slider : grid slider */}
+          <div className="bg-white bg-opacity-5 w-full h-full p-4 rounded-lg">
+            <div className="w-full h-full relative overflow-x-hidden">
+              <div className="h-full flex gap-16"> {/* 여기 translate 적용 */}
+                {contentRecommendations.map(contents => (
+                  <SliderGridContainer contents={contents} />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
 
+        {/* bottom slider */}
         <div>
           <h4 className="font-bold h4-bold pl-4 mb-5">다른 컨텐츠 둘러보기</h4>
 
-          {/* bottom slider */}
           <div className="flex flex-col items-center justify-center py-2 w-full bg-white bg-opacity-5 rounded-lg">
-            <div ref={sliderContainer} className="relative w-full h-[290px] overflow-x-hidden">
+            <div ref={sliderContainer} className="relative w-full h-[260px] overflow-x-hidden">
+              
               <div className="slider_btn_wrap">
                 <img 
                   src="/assets/icons/arrowLeft.svg"
@@ -107,6 +110,7 @@ const Chart = () => {
                   onClick={handleRight}
                 />
               </div>
+
               <div style={{translate: `-${sliderPosition}px`}} className={`absolute transition-all ease-in-out duration-300 top-[10px] left-0 flex px-20 gap-12`}>
                 {songs?.documents.slice(0,3).map((song, idx) => (
                   <SongInfoCard key={idx} subText={song.singer} title={song.title} coverArtScr={song.imageUrl} />

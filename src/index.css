@@ -16,6 +16,9 @@
   img{
     @apply cursor-pointer
   }
+  li{
+    cursor: pointer;
+  }
 }
 
 @layer utilities{
@@ -82,7 +85,7 @@
   }
 
   .grid-container{
-    @apply w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
+    @apply w-full grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
   }
 
   .grid-item:hover{
@@ -184,15 +187,15 @@
   /* Song Info Card */
 
   .songInfo_container{
-    @apply flex flex-col w-[200px] h-[280px] relative hover:scale-105 duration-200;
+    @apply flex flex-col w-[200px] h-[260px] relative hover:scale-105 duration-200;
   }
 
   .songInfo_card_bg{
-    @apply w-[200px] h-[200px] rounded-lg mb-3 object-cover;
+    @apply w-[185px] h-[185px] rounded-lg mb-3 object-cover;
   }
 
   .songInfo_card_box{
-    @apply  w-[200px] h-[200px] absolute top-0 left-0 rounded-lg;
+    @apply  w-[185px] h-[185px] absolute top-0 left-0 rounded-lg;
   }
 
 
@@ -234,10 +237,15 @@
   .grid_item{
     width: 100%;
     height: 100%;
-    background-color: salmon;
     min-height: 100px;
     min-width: 100px;
     border-radius: 4px;
+  }
+  
+  .grid_item img{
+    object-fit: cover;
+    width:100%;
+    height: 100%
   }
 
   .grid_item:nth-child(1){

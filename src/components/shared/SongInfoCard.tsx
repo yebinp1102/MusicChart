@@ -37,9 +37,9 @@ const SongInfoCard = ({title, subText, coverArtScr, bgColor, link} : Props) => {
       ): (
         <>
           <div className={`songInfo_card_bg ${bgColor}`}></div>
-          <div className="songInfo_card_box p-4 cursor-pointer" onClick={() => navigate(`${link}`)}>
+          <div className="songInfo_card_box p-3 cursor-pointer" onClick={() => navigate(`${link}`)}>
             <div className="opacity-50 text-sm mb-2 flex">Music Chart</div>
-            <div className="h3-bold">{title}</div>
+            <div className="h4-bold">{title}</div>
             <div className="opacity-80 leading-tight mt-1">{subText}</div>
           </div>
           <p className="font-bold">{title}</p>

@@ -1,6 +1,5 @@
 import GridSongList from "@/components/shared/GridSongList";
 import Loader from "@/components/shared/Loader";
-import { Button } from "@/components/ui/button";
 import { useGetSongs } from "@/lib/react-query/queries";
 import { useEffect } from "react";
 import {useInView} from 'react-intersection-observer'
@@ -8,16 +7,17 @@ import {useInView} from 'react-intersection-observer'
 const Explore = () => {
   const {ref, inView} = useInView();
   const {data: songs, fetchNextPage, hasNextPage} = useGetSongs();
+  // console.log(hasNextPage, songs)
 
   useEffect(() => {
-    if(hasNextPage) fetchNextPage();
-  },[hasNextPage])
+    if(inView) fetchNextPage();
+  },[inView])
 
 
   if(!songs){
     return (
-      <div className="w-full h-full">
-        <Loader />
+      <div className="w-full h-full flex items-center justify-center gap-4">
+        <Loader /> <span className="text-2xl">곡 정보를 불러오는 중입니다...</span>
       </div>
     )
   }
@@ -25,9 +25,9 @@ const Explore = () => {
   const shouldShowSongs = songs.pages.every((song) => song?.documents.length === 0)
 
   return (
-    <div className="w-full">
+    <div className="w-full mb-72">
       <div>
-        <div className="max-w-6xl mx-auto h-[400px] relative">
+        <div className="max-w-5xl mx-auto h-[400px] relative">
 
           <img 
             src="public/assets/images/explore-banner.jpg" 
@@ -40,27 +40,17 @@ const Explore = () => {
 
             <div className="flex justify-between items-center">
               <h1 className="text-[60px] font-extrabold">POP</h1>
-              <div className="flex items-center gap-3">
-                <Button className="blueGreen-linear rounded-3xl gap-2 flex items-center py-6 px-10">
-                  <img
-                    src="/assets/icons/play-btn.svg"
-                    width={24}
-                    height={24}
-                  />
-                  <p className="text-[1rem] font-bold">재생</p>
-                </Button>
-                <div className="border p-2 rounded-[50%] border-primary-500">
-                  <img 
-                    src="/assets/icons/like.svg"
-                    width={25}
-                    height={25}
-                  />
-                </div>  
-              </div>
-
+              <div className="border p-2 rounded-[50%] border-primary-500 self-end">
+                <img 
+                  src="/assets/icons/liked.svg"
+                  width={30}
+                  height={30}
+                />
+              </div>  
             </div>
+
             <ul className="explore-menu-wrap">
-              <li>둘러보기</li>
+              <li className="">둘러보기</li>
               <li>앨범</li>
               <li>아티스트</li>
               <li>자세히</li>
@@ -69,26 +59,28 @@ const Explore = () => {
           </div>
         </div>
         
-        <div className="max-w-6xl mx-auto">
-          <h3 className="h4-bold w-full my-8 border-b pb-6">오늘의 인기곡</h3>
+        <div className="max-w-5xl mx-auto lg:p-8 p-4">
+          <h3 className="h4-bold w-full border-b mb-10 p-4">오늘의 인기곡</h3>
 
           <div className="">
             {shouldShowSongs ? (
               <p className="">End of songs</p>
             ):(
-              <ul className="grid-container pl-3">
-                {songs.pages.map((song, idx) => (
-                  <GridSongList key={`page-${idx}`} songs={song?.documents} />            
-                ))}
-              </ul>
+              <div className="flex justify-center">
+                <ul className="grid grid-cols-2 md:grid-cols-3 gap-x-[4rem] md:gap-x-[6rem] gap-y-[3.5rem]">
+                  {songs.pages.map((song, idx) => (
+                    <GridSongList key={`page-${idx}`} songs={song?.documents} />            
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>
       </div>
 
       {hasNextPage && (
-        <div ref={ref} className="">
-          <Loader />
+        <div ref={ref} className="w-full flex items-center justify-center mt-12 gap-4">
+          <Loader /> <span className="text-xl">더 많은 곡을 불러오는 중입니다...</span>
         </div>
       )}
     </div>
