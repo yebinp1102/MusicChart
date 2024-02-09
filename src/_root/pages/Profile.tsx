@@ -2,8 +2,10 @@ import Loader from "@/components/shared/Loader";
 import { profileSliderMenuLinks } from "@/constants";
 import { useGetCurrentUser } from "@/lib/react-query/queries";
 import { ProfileMenuLinkType } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const {data: userInfo, isFetching: isGettingUserDetail} = useGetCurrentUser();
   
   if(isGettingUserDetail) return (
@@ -72,6 +74,7 @@ const Profile = () => {
               width={30}
               height={30}
               className=" self-start"
+              onClick={() => navigate('/profile/edit')}
             />
           </div>
         </div>

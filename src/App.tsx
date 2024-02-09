@@ -3,6 +3,7 @@ import LoginFrom from './_auth/form/LoginFrom';
 import RegisterForm from './_auth/form/RegisterForm';
 import RootLayout from './_root/RootLayout';
 import { Chart, Explore, Search, Home, LikeList, Playlist, Profile, CreateSong, SongDetail } from './_root/pages';
+import EditProfile from './_root/pages/EditProfile';
 import EditSong from './_root/pages/EditSong';
 import { Toaster } from './components/ui/toaster';
 import './index.css';
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/search' element={<Search />} />
           <Route path='/playlist' element={<Playlist />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/edit' element={<EditProfile />} />
           <Route path='/like-list' element={<LikeList />} />
           <Route path='/create-post' element={<CreateSong />} />
           <Route path='/edit-song/:id' element={<EditSong />} />
