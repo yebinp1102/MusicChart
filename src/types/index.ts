@@ -15,6 +15,16 @@ export type UserType = {
   isAdmin: boolean;
 }
 
+export type EditProfileType = {
+  id: string;
+  name: string;
+  email: string;
+  imageUrl: URL;
+  isAdmin: boolean;
+  ImgFile: File[];
+  imageId?: string;
+}
+
 // #endregion
 
 /* === Link type === */

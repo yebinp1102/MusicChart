@@ -1,16 +1,12 @@
-import SongForm from '@/components/forms/SongForm';
-import { useUserContext } from '@/context/AuthContext';
-import { useEffect } from 'react'
+import ProfileForm from '@/components/forms/ProfileForm';
+import { useGetCurrentUser } from '@/lib/react-query/queries';
 import { useNavigate } from 'react-router-dom';
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const {user} = useUserContext();
+  const {data: user, isPending: isGettingUser} = useGetCurrentUser()
 
-  // isAdmin: true인 유저만 접근 가능한 페이지
-  useEffect(() => {
-    if(!user.isAdmin) navigate("/")
-  },[user])
+  if(!user && !isGettingUser) navigate("/")
 
 
   return (
@@ -24,10 +20,10 @@ const EditProfile = () => {
             height={48}
             alt="add"
           />
-          <h2 className="h3-bold md:h3-bold">새로운 곡 추가하기</h2>
+          <h2 className="h3-bold md:h3-bold">프로필 정보 수정하기</h2>
         </div>
 
-        <SongForm action="Create" />
+        <ProfileForm user={user} />
       </div>
     </div>
   )

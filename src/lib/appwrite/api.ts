@@ -1,4 +1,4 @@
-import { NewSongType, NewUserType, UpdateSongType } from "@/types";
+import { EditProfileType, NewSongType, NewUserType, UpdateSongType, UserType } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -193,6 +193,35 @@ export const editSong = async (song: UpdateSongType) => {
     if(hasFileToEdit) await deleteFile(song.imageId);
 
     return editedSong;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const editProfile = async(user: EditProfileType) => {
+  const hasProfileToEdit = user.ImgFile.length > 0;
+  try{
+    let image = {
+      imageUrl: user.imageUrl,
+      imageId: user.imageId
+    }
+
+    // appwrite의 저장소에 이미지 업로드
+    if(hasProfileToEdit){
+      const uploadedFile = await uploadFile(user.ImgFile[0]);
+      if(!uploadedFile) throw Error;
+
+      // 이미지의 url 할당 
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if(!fileUrl){
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      image = {...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
+    }
+
+
   }catch(err){
     console.log(err);
   }

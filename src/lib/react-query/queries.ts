@@ -1,6 +1,6 @@
-import { NewSongType, NewUserType, UpdateSongType } from '@/types';
+import { EditProfileType, NewSongType, NewUserType, UpdateSongType } from '@/types';
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editSong, getCurrentUser, getInfiniteSongs, getMyPlaylist, getRecentSongs, getSongDetail, likeSong, searchSongs } from '../appwrite/api';
+import { LoginAccount, Logout, addToPlaylist, createNewAccount, createSong, deleteAddedSong, editProfile, editSong, getCurrentUser, getInfiniteSongs, getMyPlaylist, getRecentSongs, getSongDetail, likeSong, searchSongs } from '../appwrite/api';
 import { QUERY_KEYS } from './queryKeys';
 
 // ============================================================
@@ -55,6 +55,7 @@ export const useEditSong = () => {
     }
   })
 }
+
 
 export const useGetRecentSongs = () => {
   return useQuery({
@@ -135,6 +136,18 @@ export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
+  })
+}
+
+export const useEditProfile = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (user: EditProfileType) => editProfile(user),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER]
+      })
+    }
   })
 }
 
