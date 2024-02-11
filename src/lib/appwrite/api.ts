@@ -1,4 +1,4 @@
-import { EditProfileType, NewSongType, NewUserType, UpdateSongType, UserType } from "@/types";
+import { EditProfileType, NewSongType, NewUserType, UpdateSongType } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -176,8 +176,8 @@ export const editSong = async (song: UpdateSongType) => {
       song.songId,
       {
         title: song.title,
-        imageUrl: song.imageUrl,
-        imageId: song.imageId,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
         singer: song.singer,
         tags: tags,
       }
@@ -203,10 +203,10 @@ export const editProfile = async(user: EditProfileType) => {
   try{
     let image = {
       imageUrl: user.imageUrl,
-      imageId: user.imageId
+      imageId: user.imageId ? user.imageId : null
     }
 
-    // appwrite의 저장소에 이미지 업로드
+    // img를 수정한 경우 appwrite의 저장소에 이미지 업로드하기 위한 로직 수행
     if(hasProfileToEdit){
       const uploadedFile = await uploadFile(user.ImgFile[0]);
       if(!uploadedFile) throw Error;
@@ -219,9 +219,29 @@ export const editProfile = async(user: EditProfileType) => {
       }
 
       image = {...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
+      console.log('image:', image);
     }
 
+    const editedProfile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      user.id,
+      {
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        name: user.name,
+        email: user.email
+      }
+    )
 
+    if(!editedProfile){
+      if(hasProfileToEdit && image.imageId) await deleteFile(image.imageId);
+      throw Error;
+    }
+
+    // 이전에 저장된 이미지는 저장소에서 삭제
+    if(hasProfileToEdit && user.imageId) await deleteFile(user.imageId);
+    return editedProfile
   }catch(err){
     console.log(err);
   }
