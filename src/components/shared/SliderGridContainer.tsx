@@ -22,14 +22,15 @@ const SliderGridContainer = ({contents} : Props) => {
           <div className={`grid_item  cursor-pointer ${content.bgColor}`} onClick={() => navigate(`${content.link}`)}>
             {content.title ? (
               <div className="p-5">
-              <div className="opacity-50 mb-2 flex">Music Chart</div>
-              <h2 className="h2-bold">{content.title}</h2>
-              <div className="opacity-80 leading-tight mt-1">{content.subText}</div>
-            </div>
+                <div className="opacity-50 mb-2 flex">Music Chart</div>
+                <h2 className="h2-bold">{content.title}</h2>
+                <div className="opacity-80 leading-tight mt-1">{content.subText}</div>
+              </div>
             ) : (
               <img 
                 src={`${content.contentImg}`}
                 alt="track_cover_art"
+                className="w-[220px] h-[220px] object-cover"
               />
             )}
 

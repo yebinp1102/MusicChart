@@ -1,5 +1,6 @@
 import Loader from "@/components/shared/Loader";
 import SliderGridContainer from "@/components/shared/SliderGridContainer";
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from "lucide-react";
 import SongInfoCard from "@/components/shared/SongInfoCard"
 import { contentRecommendations } from "@/constants";
 import { useGetRecentSongs } from "@/lib/react-query/queries";
@@ -8,6 +9,22 @@ import { useEffect, useState, useRef } from "react"
 const Chart = () => {
   const [sliderPosition, setSliderPosition] = useState<number>(0);
   const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
+  const [slideIdx, setSlideIdx] = useState<number>(0);
+
+  const showNextSlide = () => {
+    setSlideIdx((idx) => {
+      if(idx === 2) return 0;
+      return idx+1;
+    })
+  };
+
+  const showPrevSlide = () => {
+    setSlideIdx((idx) => {
+      if(idx === 0) return 2;
+      return idx-1;
+    })
+  }
+
   const sliderContainer = useRef<HTMLDivElement | null>(null);
   const {data: songs, isPending: isSongLoading } = useGetRecentSongs();
   const currentDate = new Date();
@@ -67,27 +84,31 @@ const Chart = () => {
       </div>
             
       {/* container */}
-      <div className="max-w-7xl flex flex-col gap-8 justify-between p-5 my-2 mx-auto h-full bg-white bg-opacity-10 rounded-lg">
+      <div className="max-w-7xl flex flex-col gap-5 justify-between p-5 my-2 mx-auto h-full bg-white bg-opacity-10 rounded-lg">
 
         {/* Today - date */}
         <div>
-          <div className="w-full flex items-end gap-8 border-b border-light-3 pb-4">
+          <div className="w-full flex items-end gap-12 border-b border-light-3 pb-4 px-2">
             <h2 className="h2-bold">For you</h2>
-            <p className="text-primary-500 font-bold border-b-[5px] border-primary-500 pb-4 relative -bottom-4">추천 컨텐츠</p>
+            <ul className="relative -bottom-4 flex gap-6">
+              <li className="text-primary-500 font-bold border-b-[5px] border-primary-500 pb-4">추천 컨텐츠</li>
+              <li className="text-light-2">오늘의 인기곡</li>
+              <li className="text-light-2">AI 추천곡</li>
+            </ul>
           </div>
-          <p className="text-light-3 mt-4">{formattedDate}</p>
+          <p className="text-light-3 mt-4 pl-2">{formattedDate}</p>
         </div>
 
-          {/* top slider : grid slider */}
-          <div className="bg-white bg-opacity-5 w-full h-full p-4 rounded-lg">
-            <div className="w-full h-full relative overflow-x-hidden">
-              <div className="h-full flex gap-16"> {/* 여기 translate 적용 */}
-                {contentRecommendations.map(contents => (
-                  <SliderGridContainer contents={contents} />
-                ))}
-              </div>
+        {/* top slider : grid slider */}
+        <div className="bg-white bg-opacity-5 w-full h-full p-4 rounded-lg">
+          <div className="w-full h-full relative overflow-x-hidden">
+            <div className="h-full flex gap-16"> {/* 여기 translate 적용 */}
+              {contentRecommendations.map(contents => (
+                <SliderGridContainer contents={contents} />
+              ))}
             </div>
           </div>
+        </div>
 
         {/* bottom slider */}
         <div>
