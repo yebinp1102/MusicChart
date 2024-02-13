@@ -10,11 +10,6 @@ export const sidebarMenuLinks = [
     label: "둘러보기",
   },
   {
-    imgUrl: "/assets/icons/chart.svg",
-    route: "/chart",
-    label: "뮤직 차트",
-  },
-  {
     imgUrl: "/assets/icons/search.svg",
     route: "/search",
     label: "검색하기",

@@ -31,8 +31,8 @@ const SongInfoCard = ({title, subText, coverArtScr, bgColor, link} : Props) => {
               src="/assets/icons/add-song.svg"
             />
           </div>
-          <p className="font-bold">{title}</p>
-          <p className="text-sm text-light-3">{subText}</p>
+          <p className="font-bold text-sm">{title}</p>
+          <p className="text-xs mt-1 text-light-3">{subText}</p>
         </>
       ): (
         <>

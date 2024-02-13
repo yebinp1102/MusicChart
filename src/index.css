@@ -184,18 +184,33 @@
     @apply bg-primary-500;
   }
 
+  .tway_slider_btn{
+    @apply z-[100] relative border-light-4 border bg-dark-4 p-1.5 hover:bg-dark-3 rounded-md;
+  }
+
+  .tway_slider_btn:hover{
+    animation: squish 200ms ease-in-out;
+  }
+
+  @keyframes squish {
+    50%{
+      scale: 1.4 0.6;
+    }
+  }
+
+
   /* Song Info Card */
 
   .songInfo_container{
-    @apply flex flex-col w-[200px] h-[260px] relative hover:scale-105 duration-200;
+    @apply flex flex-col w-[200px] h-[240px] relative hover:scale-105 duration-200;
   }
 
   .songInfo_card_bg{
-    @apply w-[185px] h-[185px] rounded-lg mb-3 object-cover;
+    @apply w-[170px] h-[170px] rounded-lg mb-3 object-cover;
   }
 
   .songInfo_card_box{
-    @apply  w-[185px] h-[185px] absolute top-0 left-0 rounded-lg;
+    @apply  w-[170px] h-[170px] absolute top-0 left-0 rounded-lg;
   }
 
 

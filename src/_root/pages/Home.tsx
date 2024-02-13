@@ -1,206 +1,142 @@
-import HomeBanner from "@/components/shared/HomeBanner";
 import Loader from "@/components/shared/Loader";
-import SongCard from "@/components/shared/SongCard";
-import { Button } from "@/components/ui/button";
-import { useGetRecentSongs } from "@/lib/react-query/queries"
-import { Models } from "appwrite";
-import { useEffect, useState } from "react";
+import SliderGridContainer from "@/components/shared/SliderGridContainer";
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from "lucide-react";
+import SongInfoCard from "@/components/shared/SongInfoCard"
+import { contentRecommendations } from "@/constants";
+import { useGetRecentSongs } from "@/lib/react-query/queries";
+import { useEffect, useState, useRef } from "react"
 
 const Home = () => {
-  const {data: songs, isPending: isSongLoading, isError: isErrorSongs } = useGetRecentSongs();
+  const [sliderPosition, setSliderPosition] = useState<number>(0);
   const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
+  const [slideIdx, setSlideIdx] = useState<number>(0);
 
-  useEffect(()=>{
-    if(typeof window !== 'undefined'){
+  const sliderContainer = useRef<HTMLDivElement | null>(null);
+  const {data: songs, isPending: isSongLoading } = useGetRecentSongs();
+  const currentDate = new Date();
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate: string = currentDate.toLocaleDateString('ko-KR', options);
+
+
+  useEffect(() => {
+    const sliderDom = sliderContainer.current;
+    
+    if(typeof sliderDom !== 'undefined' && sliderDom){
       const handleResize = () => {
-        setWindowSize(window.innerWidth)
+        setWindowSize(sliderDom.offsetWidth);
       };
-      window.addEventListener('resize', handleResize)
+      
+      window.addEventListener('resize', handleResize);
       handleResize();
-
-      return () => window.removeEventListener("resize", handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }else{
-      return () => window.removeEventListener("resize", () => {
-        return null
-      })
+      return () => window.removeEventListener('resize', () => null)
     }
   },[])
 
-  const song = songs?.documents[0]
-  if(isErrorSongs){
+  const handleLeft = () => {
+    if(windowSize){
+      const newPosition = (sliderPosition - 250) <= 0 ? 0 : (sliderPosition - 250);
+      setSliderPosition(newPosition);
+    }
+  } 
+
+  if(!songs && isSongLoading){
     return (
-      <div className="">
-        곡을 불러오는데 에러가 발생했습니다.
-      </div>
+      <>
+      <Loader />로딩 중...
+      </>
     )
   }
 
+  const handleRight = () => {
+    if(windowSize){
+      const newPosition = (sliderPosition + 250) >= (1600 - windowSize) ? (1600 - windowSize) : (sliderPosition + 250);
+      setSliderPosition(newPosition);
+    }
+  }
+
   return (
-    <div className="flex flex-col content-between w-full h-screen">
+    <div className="w-full h-full mb-[180px] lg:mb-[90px] relative">
 
-      <div className="relative w-full h-[65%]">
-        <HomeBanner song={songs?.documents[0]} />
+      {/* background */}
+      <div className="gradient-primary-full absolute z-[-10]">
+        <div className="bg-black-opacity"></div>
+      </div>
+            
+      {/* container */}
+      <div className="max-w-7xl flex flex-col gap-5 justify-between p-5 my-2 mx-auto h-full bg-white bg-opacity-10 rounded-lg">
 
-        <div className="flex flex-col h-full px-10">
-          <div className="flex flex-col justify-center h-full">
-            {/* introduction */}
-            <div className=" text-gray-600 mb-1">오늘의 추천곡</div>
-            <div className=" h2-bold lg:h1-bold mb-4">{song?.singer} : {song?.title}</div>
-            <div className=" leading-7 text-sm text-light-3">
-              오늘의 추천곡은 훌륭한 아티스트 {song?.singer}의 {song?.title} 입니다.  &nbsp;
-              {windowSize >= 640 && <br/>}
-              {song?.title}를 듣고, 나의 하루에 특별함 한스푼을 곁들여 보는 것은 어떨까요?
-            </div>
-
-            {/* button */}          
-            <div className="flex gap-3 mt-8 items-center">
-              <Button className="shad-button_primary py-4 px-12">
-                <img src='/assets/icons/play.svg' width={18} height={18} />
-                재생</Button>
-              <Button variant="outline" className="shad-button_primary_outline px-12 py-5">더보기</Button>
-            </div>
-
+        {/* Today - date */}
+        <div>
+          <div className="w-full flex items-end gap-12 border-b border-light-3 pb-4 px-2">
+            <h2 className="h2-bold">For you</h2>
+            <ul className="relative -bottom-4 flex gap-6">
+              <li className="text-primary-500 font-bold border-b-[5px] border-primary-500 pb-4">추천 컨텐츠</li>
+              <li className="text-light-2">오늘의 인기곡</li>
+              <li className="text-light-2">AI 추천곡</li>
+            </ul>
           </div>
+          <p className="text-light-3 mt-4 pl-2">{formattedDate}</p>
+        </div>
 
-          {/* 최신곡 나열 */}
-          <div className=" max-w-full">
-            <h2 className="text-xl font-semibold">최신곡</h2>
-            <div className=" text-light-3 text-sm mt-1 mb-4">매일 추가되는 새로운 곡을 즐겨보세요.</div>
-            <hr className=" border-light-4" />
-            {isSongLoading ? (
-              <Loader />
-            ): (
-              <ul className="flex 3xl:gap-5 justify-between pt-5">
-                { windowSize >= 1800 ? (
-                  // window : 1800 ~ 
-                  <>
-                    {
-                      songs?.documents.map((song: Models.Document) => (
-                        <li key={song.$id}>
-                            <SongCard song={song} />
-                        </li>
-                      ))
-                    }
-                  </>
-                ): (
-                  <>
-                    { windowSize >= 1480 ? (
-                      // window: 1480 ~ 1800
-                      <>
-                        {songs?.documents.slice(0,7).map((song: Models.Document) => (
-                            <li key={song.$id}>
-                                <SongCard song={song} />
-                            </li>
-                          ))
-                        }
-                      </>
-                    ): (
-                      <>
-                        { windowSize >= 1330 ? (
-                          // window: 1330 ~ 1480
-                          <>
-                            {songs?.documents.slice(0,6).map((song: Models.Document) => (
-                              <li key={song.$id}>
-                                  <SongCard song={song} />
-                              </li>
-                            ))}
-                          </>
-                        ) : (
-                            // window: 0 ~ 1330
-                          <>
-                            { windowSize >= 768 ? 
-                              (songs?.documents.slice(0,5).map((song: Models.Document) => (
-                                <li key={song.$id}>
-                                    <SongCard song={song} />
-                                </li>
-                              )))
-                            :(songs?.documents.slice(0,4).map((song: Models.Document) => (
-                              <li key={song.$id}>
-                                  <SongCard song={song} />
-                              </li>
-                            )))}
-                          </>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </ul>
-            )}
+        {/* top slider : grid slider */}
+        <div className="bg-white bg-opacity-5 w-full h-full px-4 py-10 rounded-lg relative">
+          <div className="w-full h-full relative overflow-x-hidden">
+            <div style={{translate: `${-38 * slideIdx}%`}} className="h-full flex gap-16 transition-all"> {/* 여기 translate 적용 */}
+              {contentRecommendations.map(contents => (
+                <SliderGridContainer contents={contents} />
+              ))}
+            </div>
+          </div>
+          {/* dot btn */}
+          <div className="absolute bottom-1 w-ful z-20 flex gap-3 text-primary-500 left-[46%] px-8 py-1 rounded-xl">
+            <button onClick={() => setSlideIdx(0)}>{slideIdx === 0 ? <CircleDot /> : <Circle />}</button>
+            <button onClick={() => setSlideIdx(1)}>{slideIdx === 1 ? <CircleDot /> : <Circle />}</button>
+            <button onClick={() => setSlideIdx(2)}>{slideIdx === 2 ? <CircleDot /> : <Circle />}</button>
+          </div>
+        </div>
+
+        {/* bottom slider */}
+        <div>
+          <h4 className="pl-4 my-4">다른 컨텐츠 둘러보기</h4>
+
+          <div className="flex flex-col items-center justify-center py-2 w-full bg-white bg-opacity-5 rounded-lg">
+            <div ref={sliderContainer} className="relative w-full h-[245px] overflow-x-hidden">
+              
+              <div className="slider_btn_wrap">
+                <button onClick={handleLeft} className="tway_slider_btn left-2">
+                  <ArrowBigLeft size={30} />
+                </button>
+                <button onClick={handleRight} className="tway_slider_btn right-2">
+                  <ArrowBigRight size={30} />
+                </button>
+              </div>
+
+              <div style={{translate: `-${sliderPosition}px`}} className={`absolute transition-all ease-in-out duration-300 top-[10px] left-0 flex px-20 gap-12`}>
+                {songs?.documents.slice(0,3).map((song, idx) => (
+                  <SongInfoCard key={idx} subText={song.singer} title={song.title} coverArtScr={song.imageUrl} />
+                ))}
+                <SongInfoCard bgColor='bg-gradient-to-r from-pink-500 to-orange-500' title="Recently" subText="최근 재생된 곡 총 14개" link='/list-recently-played' />
+                <SongInfoCard bgColor='bg-gradient-to-r from-blue-500 to-purple-500' title="Favorites" subText="좋아요한 곡 총 16개" />
+                <SongInfoCard bgColor='bg-gradient-to-r from-green-500 to-blue-500' title="Playlist" subText="플레이리스트에 담은 곡 총 28개" link="/playlist" />
+              </div>
+
+            </div>
+
           </div>
         </div>
 
       </div>
-    
-        {/* 인기곡 나열 */}
-        <div className=" max-w-full px-10 mt-10">
-            <h2 className="text-xl font-semibold mb-4">인기곡</h2>
-            <hr className=" border-light-4" />
-            {isSongLoading ? (
-              <Loader />
-            ): (
-              <ul className="flex 3xl:gap-5 justify-between pt-5">
-                { windowSize >= 1800 ? (
-                  // window : 1800 ~ 
-                  <>
-                    {
-                      songs?.documents.map((song: Models.Document) => (
-                        <li key={song.$id}>
-                            <SongCard song={song} />
-                        </li>
-                      ))
-                    }
-                  </>
-                ): (
-                  <>
-                    { windowSize >= 1480 ? (
-                      // window: 1480 ~ 1800
-                      <>
-                        {songs?.documents.slice(0,7).map((song: Models.Document) => (
-                            <li key={song.$id}>
-                                <SongCard song={song} />
-                            </li>
-                          ))
-                        }
-                      </>
-                    ): (
-                      <>
-                        { windowSize >= 1330 ? (
-                          // window: 1330 ~ 1480
-                          <>
-                            {songs?.documents.slice(0,6).map((song: Models.Document) => (
-                              <li key={song.$id}>
-                                  <SongCard song={song} />
-                              </li>
-                            ))}
-                          </>
-                        ) : (
-                            // window: 0 ~ 1330
-                          <>
-                            { windowSize >= 768 ? 
-                              (songs?.documents.slice(0,5).map((song: Models.Document) => (
-                                <li key={song.$id}>
-                                    <SongCard song={song} />
-                                </li>
-                              )))
-                            :(songs?.documents.slice(0,4).map((song: Models.Document) => (
-                              <li key={song.$id}>
-                                  <SongCard song={song} />
-                              </li>
-                            )))}
-                          </>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </ul>
-            )}
-        </div>
 
-      </div>
-      
-      );
+    </div>
+
+  )
 }
 
 export default Home
