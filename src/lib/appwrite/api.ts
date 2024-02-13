@@ -1,4 +1,4 @@
-import { NewSongType, NewUserType, UpdateSongType } from "@/types";
+import { EditProfileType, NewSongType, NewUserType, UpdateSongType } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 import { ID, Query } from "appwrite";
 
@@ -176,8 +176,8 @@ export const editSong = async (song: UpdateSongType) => {
       song.songId,
       {
         title: song.title,
-        imageUrl: song.imageUrl,
-        imageId: song.imageId,
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
         singer: song.singer,
         tags: tags,
       }
@@ -193,6 +193,55 @@ export const editSong = async (song: UpdateSongType) => {
     if(hasFileToEdit) await deleteFile(song.imageId);
 
     return editedSong;
+  }catch(err){
+    console.log(err);
+  }
+}
+
+export const editProfile = async(user: EditProfileType) => {
+  const hasProfileToEdit = user.ImgFile.length > 0;
+  try{
+    let image = {
+      imageUrl: user.imageUrl,
+      imageId: user.imageId ? user.imageId : null
+    }
+
+    // img를 수정한 경우 appwrite의 저장소에 이미지 업로드하기 위한 로직 수행
+    if(hasProfileToEdit){
+      const uploadedFile = await uploadFile(user.ImgFile[0]);
+      if(!uploadedFile) throw Error;
+
+      // 이미지의 url 할당 
+      const fileUrl = getFilePreview(uploadedFile.$id);
+      if(!fileUrl){
+        await deleteFile(uploadedFile.$id);
+        throw Error;
+      }
+
+      image = {...image, imageUrl: fileUrl, imageId: uploadedFile.$id}
+      console.log('image:', image);
+    }
+
+    const editedProfile = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      user.id,
+      {
+        imageUrl: image.imageUrl,
+        imageId: image.imageId,
+        name: user.name,
+        email: user.email
+      }
+    )
+
+    if(!editedProfile){
+      if(hasProfileToEdit && image.imageId) await deleteFile(image.imageId);
+      throw Error;
+    }
+
+    // 이전에 저장된 이미지는 저장소에서 삭제
+    if(hasProfileToEdit && user.imageId) await deleteFile(user.imageId);
+    return editedProfile
   }catch(err){
     console.log(err);
   }
@@ -326,7 +375,7 @@ export const deleteAddedSong = async (songId: string) => {
 export const getInfiniteSongs =async ({pageParam} : {pageParam: number}) => {
 
   // 불러올 곡의 정보는 한번에 9개씩이며, createdAt을 기준으로 내림차순으로 정렬
-  const queries : any[] = [Query.orderDesc("$createdAt"), Query.limit(9)];
+  const queries : any[] = [Query.orderDesc("$createdAt"), Query.limit(6)];
 
   // pagination을 위해 pageParam 값이 있는 경우, pageParam만큼 페이지를 skip
   if(pageParam) queries.push(Query.cursorAfter(pageParam.toString()));

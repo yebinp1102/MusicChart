@@ -99,11 +99,11 @@ const LeftSideBar = () => {
 
       <div className="flex flex-col gap-5">
         {/* User */}
-        {isLoading || !user.email ? (
+        {isLoading && !user.email ? (
           <div className="h-14">
             <Loader />
           </div>
-        ): (
+        ):(
           <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
             <img 
               src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
@@ -112,15 +112,22 @@ const LeftSideBar = () => {
             />
             <div className="flex flex-col">
               <p>{user.name}</p>
-              <p className="text-[14px] text-light-3">{user.email}</p>
+              <p className="text-[14px] text-light-3">{user.email ? user.email : '회원정보가 없습니다.'}</p>
             </div>
           </Link>
         )}
 
 
-        <Button variant="ghost" className="shad-button_primary mr-2" onClick={(e) => handleLogout(e)}>
+        <Button 
+          variant="ghost" 
+          className="shad-button_primary mr-2" 
+          onClick={(e) => {
+            if(user.email)handleLogout(e);
+            else navigate('/login')
+          }}
+        >
           <MdLogout />
-          <p>로그아웃</p>
+          <p>{user.email ? '로그아웃' : '로그인'}</p>
         </Button>
       </div>
 

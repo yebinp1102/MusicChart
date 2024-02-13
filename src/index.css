@@ -16,6 +16,9 @@
   img{
     @apply cursor-pointer
   }
+  li{
+    cursor: pointer;
+  }
 }
 
 @layer utilities{
@@ -82,7 +85,7 @@
   }
 
   .grid-container{
-    @apply w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
+    @apply w-full grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-7 max-w-6xl transition-all;
   }
 
   .grid-item:hover{
@@ -102,7 +105,7 @@
   }
 
   .bg-black-opacity{
-    @apply bg-black absolute w-full h-full  opacity-60;
+    @apply bg-black absolute w-full h-full opacity-60;
   }
 
   .audio_container{
@@ -151,10 +154,6 @@
     color: #9DB2BF;
   }
 
-  .explore-menu-wrap li{
-    cursor: pointer;
-  }
-
   .slider {
     -webkit-appearance: none;
     appearance: none;
@@ -183,7 +182,93 @@
     border: #505050 1px solid;
     cursor: pointer;
     @apply bg-primary-500;
+  }
 
+  .tway_slider_btn{
+    @apply z-[100] relative border-light-4 border bg-dark-4 p-1.5 hover:bg-dark-3 rounded-md;
+  }
+
+  .tway_slider_btn:hover{
+    animation: squish 200ms ease-in-out;
+  }
+
+  @keyframes squish {
+    50%{
+      scale: 1.4 0.6;
+    }
+  }
+
+
+  /* Song Info Card */
+
+  .songInfo_container{
+    @apply flex flex-col w-[200px] h-[240px] relative hover:scale-105 duration-200;
+  }
+
+  .songInfo_card_bg{
+    @apply w-[170px] h-[170px] rounded-lg mb-3 object-cover;
+  }
+
+  .songInfo_card_box{
+    @apply  w-[170px] h-[170px] absolute top-0 left-0 rounded-lg;
+  }
+
+
+  
+  .songInfo_card_hover{
+    @apply opacity-0 hover:opacity-100 hover:bg-opacity-80 hover:bg-black flex gap-4 justify-center items-center ;
+  }
+
+  .songInfo_card_hover img{
+    @apply w-[34px] h-[34px];
+  }
+
+  /* slider 좌 & 우 버튼 */
+  .slider_btn_wrap{
+    @apply absolute w-full h-full flex justify-between items-center;
+  }
+
+  .slider_btn_wrap img{
+    @apply absolute top-[35%] rounded-full bg-light-2 w-[46px] h-[46px];
+  }
+
+
+
+  /* grid slider */
+  .grid_slider{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas: 
+      'a a b c c'
+      'a a d c c'
+      'e f g h i'
+    ;
+  }
+
+  .grid_item{
+    width: 100%;
+    height: 100%;
+    min-height: 100px;
+    min-width: 100px;
+    border-radius: 4px;
+  }
+  
+  .grid_item img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%
+  }
+
+  .grid_item:nth-child(1){
+    grid-area: a;
+  }
+
+  .grid_item:nth-child(3){
+    grid-area: c;
   }
 }
 
