@@ -1,30 +1,38 @@
 
-# 프로젝트 이름 : Music Chart
+## 🎧 음악과 관련 기능 제공 앱 Music Chart 
 
-## 프로젝트 소개
-
-<p align="justify">
-프로젝트 개요/동기
-</p>
-
-<p align="center">
-  <br>
-  <img src="public/assets/images/thumbnail.png">
-  <br>
+<p>
+  <img src="public/assets/images/HomePage.png">  
 </p>
 
 <br>
+<br>
+<br>
 
-## 기술 스택
+
+## 프로젝트 소개
+• 전체 개발 기간 : 2023.11.28 ~ 2024.02.12
+
+• 프로젝트 개요 : Music Chart 웹 어플리케이션은 음악과 관련된 다양한 기능을 사용자에게 제공합니다. 
+
+• 프로젝트 동기: Music Chart 어플리케이션을 만들게 된 계기는 "다소 복잡한 오디오 플레이어 UI을 구현해보자"라는 생각에서 출발했다. 이왕 하는 김에 나의 역량을 뽐내기 위해 오디오 UI 이외에 다양한 페이지와 기능들을 추가하기로 했다. 그렇게 로그인, 검색, 곡 상세 페이지, 좋아요 기능 등등 많은 기능을 가진 웹 페이지가 탄생하게 됐다. 
+
+<br>
+<br>
+<br>
+
+### [ 기술 스택 ]
+
 
 | JavaScript | TypeScript |   HTML   |   Appwrite  |   React   |   React-query  |   Tailwind  |
 | :--------: | :--------: | :------: | :---------: | :-------: | :------------: | :---------: |
 |   ![js]    |   ![ts]    | ![html]  | ![appwrite] |  ![react] |  ![react-query] | ![tailwind] |
 
 <br>
+<br>
+<br>
 
-
-## 결과물 이미지와 구현 기능
+## 페이지별 기능
 
 ### 01. 회원가입 페이지
  구현기능 >
