@@ -19,7 +19,11 @@ const SliderGridContainer = ({contents} : Props) => {
 
       <div className="grid_slider">
         {contents.map(content => (
-          <div className={`grid_item  cursor-pointer ${content.bgColor}`} onClick={() => navigate(`${content.link}`)}>
+          <div 
+            className={`grid_item  cursor-pointer ${content.bgColor}`} 
+            onClick={() => navigate(`${content.link}`)}
+            key={content.title}
+          >
             {content.title ? (
               <div className="p-5">
                 <div className="opacity-50 mb-2 flex">Music Chart</div>

@@ -2,8 +2,12 @@
 ## 🎧 음악과 관련 기능 제공 앱 Music Chart 
 
 <p>
-  <img src="public/assets/images/HomePage.png">  
+  <img src="public/assets/images/HomePage.png"> 
 </p>
+
+* 배포 URL: 
+* Test ID: 
+* Test PW:
 
 <br>
 <br>

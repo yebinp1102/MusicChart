@@ -7,11 +7,10 @@ import { useGetRecentSongs } from "@/lib/react-query/queries";
 import { useEffect, useState, useRef } from "react"
 
 const Home = () => {
-  const [sliderPosition, setSliderPosition] = useState<number>(0);
-  const [windowSize, setWindowSize] = useState<number | undefined>(undefined);
-  const [slideIdx, setSlideIdx] = useState<number>(0);
-
   const sliderContainer = useRef<HTMLDivElement | null>(null);
+  const [sliderPosition, setSliderPosition] = useState<number>(0);
+  const [windowSize, setWindowSize] = useState<number>(0);
+  const [slideIdx, setSlideIdx] = useState<number>(0);
   const {data: songs, isPending: isSongLoading } = useGetRecentSongs();
   const currentDate = new Date();
   const options: Intl.DateTimeFormatOptions = {
@@ -22,29 +21,34 @@ const Home = () => {
   };
   const formattedDate: string = currentDate.toLocaleDateString('ko-KR', options);
 
-
   useEffect(() => {
     const sliderDom = sliderContainer.current;
     
-    if(typeof sliderDom !== 'undefined' && sliderDom){
+    if(sliderDom){
       const handleResize = () => {
         setWindowSize(sliderDom.offsetWidth);
       };
-      
       window.addEventListener('resize', handleResize);
       handleResize();
       return () => window.removeEventListener('resize', handleResize);
     }else{
-      return () => window.removeEventListener('resize', () => null)
-    }
-  },[])
+      return () => window.removeEventListener('resize', () => null);
+    }    
+  },[sliderContainer.current])
 
   const handleLeft = () => {
-    if(windowSize){
+    if(sliderContainer.current?.offsetWidth){
       const newPosition = (sliderPosition - 250) <= 0 ? 0 : (sliderPosition - 250);
       setSliderPosition(newPosition);
     }
   } 
+
+  const handleRight = () => {
+    if(sliderContainer.current?.offsetWidth){
+      const newPosition = (sliderPosition + 250) >= (1600 - sliderContainer.current?.offsetWidth) ? (1600 - sliderContainer.current?.offsetWidth) : (sliderPosition + 250);
+      setSliderPosition(newPosition);
+    }
+  }
 
   if(!songs && isSongLoading){
     return (
@@ -54,12 +58,8 @@ const Home = () => {
     )
   }
 
-  const handleRight = () => {
-    if(windowSize){
-      const newPosition = (sliderPosition + 250) >= (1600 - windowSize) ? (1600 - windowSize) : (sliderPosition + 250);
-      setSliderPosition(newPosition);
-    }
-  }
+  console.log('dom width :', sliderContainer.current?.offsetWidth);
+  console.log('windowSize:', windowSize)
 
   return (
     <div className="w-full h-full mb-[180px] lg:mb-[90px] relative">
