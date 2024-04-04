@@ -58,9 +58,6 @@ const Home = () => {
     )
   }
 
-  console.log('dom width :', sliderContainer.current?.offsetWidth);
-  console.log('windowSize:', windowSize)
-
   return (
     <div className="w-full h-full mb-[180px] lg:mb-[90px] relative">
 
